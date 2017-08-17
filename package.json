@@ -1,0 +1,53 @@
+{
+  "name": "@lmig/lmb-react-form",
+  "version": "1.0.0",
+  "description": "A non shitty react form lib",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha-webpack --opts test/mocha-webpack.opts",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "NODE_ENV=coverage nyc --check-coverage --reporter=text mocha-webpack --opts test/mocha-webpack.opts",
+    "test:coverage-html": "NODE_ENV=coverage nyc --reporter=html mocha-webpack --opts test/mocha-webpack.opts && http-server coverage -o -p 8007",
+    "start": "NODE_ENV=development webpack-dev-server -d --config config/webpack/webpack.dev.config.js --port 4004 --hot",
+    "build:dev": "NODE_ENV=development webpack --config config/webpack/webpack.dev.config.js",
+    "build:dist": "NODE_ENV=production webpack -p --config config/webpack/webpack.dist.config.js"
+  },
+  "author": {
+    "name": "Joseph Puzzo",
+    "email": "jgpuzzo2@gmail.com",
+    "url": "http://joepuzzo.github.io"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.1",
+    "enzyme": "^2.9.1",
+    "jsdom": "^11.1.0",
+    "mocha": "^3.5.0",
+    "mocha-webpack": "^0.7.0",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "sinon": "^3.2.1",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-0",
+      "react"
+    ],
+    "plugins": [
+      "react-hot-loader/babel"
+    ]
+  }
+}
