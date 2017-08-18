@@ -17,7 +17,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.join(__dirname, '../../'),
-    library: 'lmb-react-form',
+    library: 'react-savage-form',
     libraryTarget: 'umd',
   }
 };
