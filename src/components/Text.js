@@ -14,9 +14,6 @@ class Text extends Component {
   render() {
 
     const {
-			setValue, 
-			setTouched, 
-			getValue,
 			onChange, 
       field
     } = this.props;

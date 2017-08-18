@@ -10,6 +10,13 @@ import PropTypes from 'prop-types';
 
 class FormField extends Component {
 
+  // We want to set touched to true when the form was submitted ( not for nested forms! )
+  componentWillReceiveProps(nextProps, nextContext){
+		if( nextContext.formApi.submitted !== this.context.formApi.submitted && !this.props.nestedForm ){
+			this.context.formApi.setTouched( this.props.field );
+		}
+	}
+
   render() {
 
 	  const { 
@@ -29,7 +36,8 @@ class FormField extends Component {
       setWarning: ( warning ) => { formApi.setWarning( field, warning ) },
       setSuccess: ( success ) => { formApi.setSuccess( field, success ) },
       getValue: ( ) => { formApi.getValue( field ) }, 
-      getTouched: ( ) => { formApi.getTouched( field ) }
+      getTouched: ( ) => { formApi.getTouched( field ) }, 
+      submitted: formApi.submitted
     }
 
   	// Give children access to properties

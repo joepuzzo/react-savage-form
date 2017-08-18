@@ -17,7 +17,8 @@ class Form extends Component {
       touched: {},
 			errors: {},
 			warnings: {},
-			successes: {}
+			successes: {}, 
+      submitted: false
 		}
 		this.getValue = this.getValue.bind(this);
 		this.setValue = this.setValue.bind(this);
@@ -38,6 +39,26 @@ class Form extends Component {
     }
   }
 
+  componentDidMount(){
+    // We want to validate right away
+    // Note, this will trigger compDidUpdate 
+    // and therefore, will trigger the onChange of nested forms
+	  this.setState((prevState, props) => {
+			// Validate
+			const validations = this.validate( prevState.values );
+			// Return the new state
+      return {
+				...validations  
+      };
+    });
+	}
+
+  componentWillReceiveProps(nextProps){
+    if( nextProps.submitted !== this.state.submitted ){
+      this.setState({submitted: true});
+    }
+  }
+
 	getChildContext () {
     return {
       formApi: this.api,
@@ -49,7 +70,8 @@ class Form extends Component {
     JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) || 
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
-    JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched);
+    JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
+    nextState.submitted !== this.state.submitted;
 	}
 
   get api(){
@@ -66,7 +88,8 @@ class Form extends Component {
       getTouched: this.getTouched, 
       setError: this.setError, 
       setWarning: this.setWarning, 
-      setSuccess: this.setSuccess
+      setSuccess: this.setSuccess, 
+      submitted: this.state.submitted
 		};
 	}
 
@@ -112,7 +135,8 @@ class Form extends Component {
 			const validations = this.validate( prevState.values );
 			// Return the new state
       return {
-				...validations  
+				...validations, 
+        submitted: true
       };
     }, onSubmit );
 				

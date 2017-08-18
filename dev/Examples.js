@@ -52,7 +52,12 @@ class Examples extends Component {
 
     return (
       <div>
-				<Form formDidUpdate={(state)=>{console.log(state.errors)}} onSubmit={((values)=>{console.log("SUBMIT:", values)})} validateError={errorValidator}>
+				<Form formDidUpdate={(state)=>{
+          console.log("-------------------------------------")
+          console.log("VALUES:",state.values)
+          console.log("ERRORS:",state.errors)
+          console.log("TOUCHE:",state.touched)
+        }} onSubmit={((values)=>{console.log("SUBMIT:", values)})} validateError={errorValidator}>
           {(api) => {
 
             return (

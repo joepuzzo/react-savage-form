@@ -15,11 +15,12 @@ class FormInput extends Component {
 
     const {
       children, 
-      field 
+      field, 
+      nestedForm
     } = this.props;
 
     return (
-		  <FormField field={field}>
+		  <FormField field={field} nestedForm={nestedForm}>
         {( fieldApi ) =>{
           
 					// Give children access to properties
@@ -31,7 +32,7 @@ class FormInput extends Component {
               return React.cloneElement(child, { key: index })
             })
           }
-
+          
 					// Finally we return resolved children
 					return(
 						<div>
