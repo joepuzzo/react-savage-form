@@ -34,15 +34,15 @@ class Form extends Component {
     if( this.props.formDidUpdate ){
       this.props.formDidUpdate( this.state );
     }
-    if( this.props.onChange ){
-      this.props.onChange( this.state );
+    if( this.props.update ){
+      this.props.update( this.state );
     }
   }
 
   componentDidMount(){
     // We want to validate right away
     // Note, this will trigger compDidUpdate 
-    // and therefore, will trigger the onChange of nested forms
+    // and therefore, will trigger the update of nested forms
 	  this.setState((prevState, props) => {
 			// Validate
 			const validations = this.validate( prevState.values );

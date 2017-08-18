@@ -25,7 +25,7 @@ class NestedForm extends Component {
             // We pass down the fact that the parent form was submitted to the nested form 
             submitted,
             // On change is an internal method that is used to update the parent form
-            onChange: ({values, errors, successes, warnings, touched}) => {
+            update: ({values, errors, successes, warnings, touched}) => {
 
               const invalid = Object.keys(errors).some( (k) => {
       	        return errors[k];
