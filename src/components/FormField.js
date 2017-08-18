@@ -35,8 +35,8 @@ class FormField extends Component {
       setError: ( error ) => { formApi.setError( field, error ) },
       setWarning: ( warning ) => { formApi.setWarning( field, warning ) },
       setSuccess: ( success ) => { formApi.setSuccess( field, success ) },
-      getValue: ( ) => { formApi.getValue( field ) }, 
-      getTouched: ( ) => { formApi.getTouched( field ) }, 
+      getValue: ( ) => formApi.getValue( field ), 
+      getTouched: ( ) => formApi.getTouched( field ), 
       submitted: formApi.submitted
     }
 
