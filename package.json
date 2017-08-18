@@ -1,6 +1,6 @@
 {
   "name": "react-savage-form",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A non shitty react form lib",
   "main": "index.js",
   "scripts": {
