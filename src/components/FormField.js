@@ -15,6 +15,9 @@ class FormField extends Component {
 		if( nextContext.formApi.submitted !== this.context.formApi.submitted && !this.props.nestedForm ){
 			this.context.formApi.setTouched( this.props.field );
 		}
+    if( nextContext.formApi.submits !== this.context.formApi.submits && !this.props.nestedForm ){
+			this.context.formApi.setTouched( this.props.field );
+		}
 	}
 
   shouldComponentUpdate(nextProps, nextState, nextContext){

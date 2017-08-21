@@ -66,6 +66,7 @@ class Examples extends Component {
           console.log("VALUES:",state.values)
           console.log("ERRORS:",state.errors)
           console.log("TOUCHE:",state.touched)
+          console.log("SUBMIT:",state.submits)
         }} onSubmit={((values)=>{console.log("SUBMIT:", values)})} validateError={errorValidator}>
           {(api) => {
 

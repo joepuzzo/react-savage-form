@@ -18,7 +18,8 @@ class Form extends Component {
 			errors: {},
 			warnings: {},
 			successes: {}, 
-      submitted: false
+      submitted: false,
+      submits: 0 
 		}
 		this.getValue = this.getValue.bind(this);
 		this.setValue = this.setValue.bind(this);
@@ -58,6 +59,10 @@ class Form extends Component {
     if( nextProps.submitted !== this.state.submitted && nextProps.submitted === true && this.state.submitted === false ){
       this.setState({submitted: true});
     }
+    // If submits was incrimented
+    if( nextProps.submits != this.state.submits ){  
+      this.setState( prevState => { submits: prevState.submits + 1 } );
+    }
   }
 
 	getChildContext () {
@@ -72,6 +77,7 @@ class Form extends Component {
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
     JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
+    nextState.submits !== this.state.submits || 
     nextState.submitted !== this.state.submitted;
 	}
 
@@ -90,7 +96,8 @@ class Form extends Component {
       setError: this.setError, 
       setWarning: this.setWarning, 
       setSuccess: this.setSuccess, 
-      submitted: this.state.submitted
+      submitted: this.state.submitted, 
+      submits: this.state.submits
 		};
 	}
 
@@ -137,7 +144,8 @@ class Form extends Component {
 			// Return the new state
       return {
 				...validations, 
-        submitted: true
+        submitted: true, 
+        submits: prevState.submits + 1
       };
     }, onSubmit );
 				

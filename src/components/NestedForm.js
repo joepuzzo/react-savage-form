@@ -27,11 +27,13 @@ class NestedFormWrapper extends Component {
       setSuccess,
       setTouched, 
       submitted, 
+      submits
     } = fieldApi;
 
     return React.cloneElement(children, {
             // We pass down the fact that the parent form was submitted to the nested form 
             submitted,
+            submits,
             // On change is an internal method that is used to update the parent form
             update: ({values, errors, successes, warnings, touched}) => {
 
