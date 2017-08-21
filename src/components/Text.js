@@ -7,36 +7,58 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // Inport the form input
-import FormInput from './FormInput';
+import FormField from './FormField';
+
+class TextWrapper extends Component {
+
+  render() {
+
+    //console.log('RENDER');
+
+    const {
+			onChange, 
+      fieldApi
+    } = this.props;
+
+     const {
+      getValue,
+      setValue, 
+      getTouched, 
+      setTouched
+    } = fieldApi;
+
+    return (
+       <div>
+       <input
+        value={getValue('')}
+        onChange={( e ) => {
+            setValue(e.target.value);
+            if ( onChange ) {
+              onChange(e);
+            }
+          }
+        }
+        onBlur={() => setTouched()} /> 
+       </div>
+    );
+  }
+}
 
 class Text extends Component {
 
   render() {
-
     const {
-			onChange, 
-      field
+      field,
+      ...rest
     } = this.props;
 
-    return (
-			<FormInput field={field}>
-				{({ setValue, getValue, setTouched }) => {	
-					return ( 	
-					 <input
-						value={getValue('')}
-						onChange={( e ) => {
-								setValue(e.target.value);
-								if ( onChange ) {
-									onChange(e);
-								}
-							}
-						}
-						onBlur={() => setTouched()} /> 
-					);
-				}}
-			</FormInput>
+    return ( 
+      <FormField field={field}>
+        <TextWrapper {...rest}/>
+      </FormField>
     );
   }
+
 }
 
 export default Text;

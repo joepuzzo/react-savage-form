@@ -17,7 +17,25 @@ class FormField extends Component {
 		}
 	}
 
+  shouldComponentUpdate(nextProps, nextState, nextContext){
+    //console.log( `NextProps: -- ${nextProps.field}`, nextProps );
+    //console.log( `NextContext: -- ${nextProps.field}`, nextContext );
+    const field = this.props.field;
+    //console.log(`Compare -- ${nextProps.field}:`, this.context.formApi.values[field], nextContext.formApi.values[field] )
+    const currentApi = this.context.formApi;
+    const nextApi = nextContext.formApi;
+    const shouldUpdate = nextApi.values[field] != currentApi.values[field] || 
+           nextApi.touched[field] != currentApi.touched[field] || 
+           nextApi.errors[field] != currentApi.errors[field] || 
+           nextApi.warnings[field] != currentApi.warnings[field] || 
+           nextApi.successes[field] != currentApi.successes[field];
+    return shouldUpdate;
+	}
+
+
   render() {
+
+    //console.log("RENDER FIELD", this.props.field);
 
 	  const { 
       formApi 
@@ -40,21 +58,7 @@ class FormField extends Component {
       submitted: formApi.submitted
     }
 
-  	// Give children access to properties
-		let resolvedChildren = typeof children === 'function' ? children( fieldApi ) : children;
-
-		// In case multiple children in array, add keys
-		if ( Array.isArray( resolvedChildren ) ) {
-			resolvedChildren = resolvedChildren.map((child, index) => {
-				return React.cloneElement(child, { key: index })
-			})
-		}
-
-    return (
-		  <div>
-        {resolvedChildren}
-      </div>	
-    );
+    return ( <div>{React.cloneElement(children, {fieldApi} )}</div> );
 
   }
 

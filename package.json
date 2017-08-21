@@ -8,7 +8,7 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "NODE_ENV=coverage nyc --check-coverage --reporter=text mocha-webpack --opts test/mocha-webpack.opts",
     "test:coverage-html": "NODE_ENV=coverage nyc --reporter=html mocha-webpack --opts test/mocha-webpack.opts && http-server coverage -o -p 8007",
-    "start": "NODE_ENV=development webpack-dev-server -d --config config/webpack/webpack.dev.config.js --port 4004 --hot",
+    "start": "NODE_ENV=development webpack-dev-server -d --config config/webpack/webpack.dev.config.js --port 4005 --hot",
     "build:dev": "NODE_ENV=development webpack --config config/webpack/webpack.dev.config.js",
     "build:dist": "NODE_ENV=production webpack -p --config config/webpack/webpack.dist.config.js"
   },

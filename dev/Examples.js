@@ -24,7 +24,16 @@ const errorValidator = (values) => {
     baz: validateField('baz'),
     raz: validateField('raz'),
     taz: validateField('taz'),
-    fuck: validateField('fuck')
+    fuck: validateField('fuck'),
+
+    a : validateField('a'),
+    b : validateField('b'),
+    c : validateField('c'),
+    d : validateField('d'),
+    e : validateField('e'),
+    f : validateField('f'),
+    g : validateField('g'),
+    h : validateField('h')
   }
 
 }
@@ -68,6 +77,16 @@ class Examples extends Component {
                 <Text field="raz"/>
                 <Text field="taz"/>
                 <Text field="fuck"/>
+
+                <Text field="a"/>
+                <Text field="b"/>
+                <Text field="c"/>
+                <Text field="d"/>
+                <Text field="e"/>
+                <Text field="f"/>
+                <Text field="g"/>
+                <Text field="h"/>
+
                 <NestedForm field="color">
                   <Form validateError={nestedErrorValidator}>
                    <Text field="red"/>

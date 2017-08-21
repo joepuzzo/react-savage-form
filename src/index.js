@@ -3,7 +3,7 @@
 import Form from './components/Form';
 import Text from './components/Text';
 import NestedForm from './components/NestedForm';
-import FormInput from './components/FormInput';
+import FormField from './components/FormField';
 
 /* ---------- exports ---------- */
 
@@ -11,5 +11,5 @@ export {
   Form,
   Text, 
   NestedForm, 
-	FormInput
+	FormField
 }
