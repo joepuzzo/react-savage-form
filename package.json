@@ -19,9 +19,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "prop-types": "^15.5.10"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -34,6 +32,8 @@
     "jsdom": "^11.1.0",
     "mocha": "^3.5.0",
     "mocha-webpack": "^0.7.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-hot-loader": "^3.0.0-beta.7",
     "sinon": "^3.2.1",
     "webpack": "^3.5.5",

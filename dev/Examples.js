@@ -93,6 +93,15 @@ class Examples extends Component {
                    <Text field="red"/>
                    <Text field="green"/>
                    <Text field="blue"/>
+
+                   <NestedForm field="food">
+                    <Form validateError={nestedErrorValidator}>
+                      <Text field="pizza"/>
+                      <Text field="burrito"/>
+                      <Text field="sandwich"/>
+                    </Form>
+                   </NestedForm>
+
                   </Form>
                 </NestedForm>
                 <button type="submit">click me!</button>
