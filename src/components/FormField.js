@@ -38,7 +38,7 @@ class FormField extends Component {
 
   render() {
 
-    console.log("RENDER FIELD", this.props.field);
+    //console.log("RENDER FIELD", this.props.field);
 
 	  const { 
       formApi 
