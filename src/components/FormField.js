@@ -31,14 +31,14 @@ class FormField extends Component {
            nextApi.touched[field] != currentApi.touched[field] || 
            nextApi.errors[field] != currentApi.errors[field] || 
            nextApi.warnings[field] != currentApi.warnings[field] || 
-           nextApi.successes[field] != currentApi.successes[field] || this.props.nestedForm; 
+           nextApi.successes[field] != currentApi.successes[field]; 
     return shouldUpdate || false;
 	}
 
 
   render() {
 
-    //console.log("RENDER FIELD", this.props.field);
+    console.log("RENDER FIELD", this.props.field);
 
 	  const { 
       formApi 
