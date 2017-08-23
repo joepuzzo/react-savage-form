@@ -31,7 +31,8 @@ class FormField extends Component {
            nextApi.touched[field] != currentApi.touched[field] || 
            nextApi.errors[field] != currentApi.errors[field] || 
            nextApi.warnings[field] != currentApi.warnings[field] || 
-           nextApi.successes[field] != currentApi.successes[field]; 
+           nextApi.successes[field] != currentApi.successes[field] || 
+           nextContext.formApi.submits !== this.context.formApi.submits;
     return shouldUpdate || false;
 	}
 
