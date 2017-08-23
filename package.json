@@ -10,7 +10,8 @@
     "test:coverage-html": "NODE_ENV=coverage nyc --reporter=html mocha-webpack --opts test/mocha-webpack.opts && http-server coverage -o -p 8007",
     "start": "NODE_ENV=development webpack-dev-server -d --config config/webpack/webpack.dev.config.js --port 4005 --hot",
     "build:dev": "NODE_ENV=development webpack --config config/webpack/webpack.dev.config.js",
-    "build:dist": "NODE_ENV=production webpack -p --config config/webpack/webpack.dist.config.js"
+    "build:dist": "NODE_ENV=production webpack -p --config config/webpack/webpack.dist.config.js",
+    "eslint": "eslint"
   },
   "author": {
     "name": "Joseph Puzzo",
@@ -23,12 +24,18 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.1.1",
     "enzyme": "^2.9.1",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.3.0",
     "jsdom": "^11.1.0",
     "mocha": "^3.5.0",
     "mocha-webpack": "^0.7.0",
