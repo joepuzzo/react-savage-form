@@ -72,14 +72,15 @@ class Form extends Component {
   }
 
 	shouldComponentUpdate(nextProps, nextState){
-		//console.log("CHILDREN", this.props.children === nextProps.children );
+		//console.log("PROPS", nextProps.children.props );
+		//console.log("CHILDREN", this.props.children.props === nextProps.children.props );
 		const shouldUpdate = JSON.stringify(nextState.values) !== JSON.stringify(this.state.values) ||
     JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) || 
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
     JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
     nextState.submits !== this.state.submits || 
-		this.props.children !== nextProps.children ||
+		//JSON.stringify( this.props.children.props ) !== JSON.stringify( nextProps.children.props ) || 
     nextState.submitted !== this.state.submitted;
     return shouldUpdate || false;
 	}
@@ -251,20 +252,23 @@ class Form extends Component {
     } = this.props;
 
   	// Give children access to properties
-		let resolvedChildren = typeof children === 'function' ? children(this.api) : children;
+		//let resolvedChildren = typeof children === 'function' ? children(this.api) : children;
 
 		// In case multiple children in array, add keys
-		if ( Array.isArray( resolvedChildren ) ) {
+		/*if ( Array.isArray( resolvedChildren ) ) {
 			resolvedChildren = resolvedChildren.map((child, index) => {
 				return React.cloneElement(child, { key: index })
 			})
-		}
+		}*/
 
-    return (
+    /*return (
       <div>
-        {resolvedChildren}  
+        {children}  
       </div>
-    );
+    );*/
+
+    return React.cloneElement(children, { formApi: this.api } );
+
   }
 
 }

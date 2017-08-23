@@ -59,7 +59,8 @@ class FormField extends Component {
       setSuccess: ( success ) => { formApi.setSuccess( field, success ) },
       getValue: ( ) => formApi.getValue( field ), 
       getTouched: ( ) => formApi.getTouched( field ), 
-      submitted: formApi.submitted
+      submitted: formApi.submitted, 
+      submits: formApi.submits
     }
 
     return ( <div>{React.cloneElement(children, {fieldApi} )}</div> );
