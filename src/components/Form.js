@@ -72,12 +72,14 @@ class Form extends Component {
   }
 
 	shouldComponentUpdate(nextProps, nextState){
+		//console.log("CHILDREN", this.props.children === nextProps.children );
 		const shouldUpdate = JSON.stringify(nextState.values) !== JSON.stringify(this.state.values) ||
     JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) || 
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
     JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
     nextState.submits !== this.state.submits || 
+		this.props.children !== nextProps.children ||
     nextState.submitted !== this.state.submitted;
     return shouldUpdate || false;
 	}
