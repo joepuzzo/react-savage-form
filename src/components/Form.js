@@ -61,7 +61,7 @@ class Form extends Component {
     }
     // If submits was incrimented
     if( nextProps.submits != this.state.submits ){  
-      this.setState( prevState => { submits: prevState.submits + 1 } );
+      this.setState( ( prevState ) => { return {submits: prevState.submits + 1 }; } );
     }
   }
 
@@ -72,15 +72,24 @@ class Form extends Component {
   }
 
 	shouldComponentUpdate(nextProps, nextState){
-		//console.log("PROPS", nextProps.children.props );
+		//console.log("PROPS", nextProps.children.props, this.props.children.props );
 		//console.log("CHILDREN", this.props.children.props === nextProps.children.props );
+    //
+    //Check child props for changes so we know to re-render
+    const props1 = { ...this.props.children.props };
+    const props2 = { ...nextProps.children.props };
+
+    // Remove children so we can do shallow compare
+    props1.children = null;
+    props2.children = null;
+
 		const shouldUpdate = JSON.stringify(nextState.values) !== JSON.stringify(this.state.values) ||
     JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) || 
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
     JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
     nextState.submits !== this.state.submits || 
-		//JSON.stringify( this.props.children.props ) !== JSON.stringify( nextProps.children.props ) || 
+		JSON.stringify( props1 ) !== JSON.stringify( props2 ) || 
     nextState.submitted !== this.state.submitted;
     return shouldUpdate || false;
 	}
