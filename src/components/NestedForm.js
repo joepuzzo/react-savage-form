@@ -10,6 +10,16 @@ import PropTypes from 'prop-types';
 import FormField from './FormField';
 
 class NestedFormWrapper extends Component { 
+
+  /*componentWillUnmount(){
+    const fieldApi = this.props.fieldApi;
+    console.log("UNMOUNTING", fieldApi);
+    fieldApi.setValue( null );
+    fieldApi.setTouched( null );
+    fieldApi.setError( null );
+    fieldApi.setWarning( null ); 
+    fieldApi.setSuccess( null );
+  }*/
   
   render(){
 
@@ -27,27 +37,29 @@ class NestedFormWrapper extends Component {
       setSuccess,
       setTouched, 
       submitted, 
-      submits
+      submits, 
+      reset
     } = fieldApi;
 
     return React.cloneElement(children, {
             // We pass down the fact that the parent form was submitted to the nested form 
             submitted,
             submits,
+            reset,
             // On change is an internal method that is used to update the parent form
             update: ({values, errors, successes, warnings, touched}) => {
 
-              const invalid = Object.keys(errors).some( (k) => {
+              const invalid = errors ? Object.keys(errors).some( (k) => {
       	        return errors[k];
-    	        });
+    	        }) : false;
 
-              const success = Object.keys(successes).some( (k) => {
+              const success = successes ? Object.keys(successes).some( (k) => {
       	        return successes[k];
-    	        });
+    	        }) : false;
 
-              const warning = Object.keys(warnings).some( (k) => {
+              const warning = warnings ? Object.keys(warnings).some( (k) => {
       	        return warnings[k];
-    	        });
+    	        }) : false;
 
               setValue( values );
               setTouched( touched );

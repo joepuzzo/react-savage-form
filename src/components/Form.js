@@ -29,6 +29,7 @@ class Form extends Component {
     this.setWarning = this.setWarning.bind(this);
     this.setSuccess = this.setSuccess.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.reset = this.reset.bind(this);
 	}
 	
   componentDidUpdate(){
@@ -53,6 +54,13 @@ class Form extends Component {
       };
     });
 	}
+
+  componentWillUnmount(){
+    // Reset the form if it has reset
+    if( this.props.reset ){
+      this.props.reset();
+    }
+  }
 
   componentWillReceiveProps(nextProps){
     // If we are told we are submitted and we went from true to false ( not undefined to somthing else ) then submit
@@ -110,7 +118,8 @@ class Form extends Component {
       setWarning: this.setWarning, 
       setSuccess: this.setSuccess, 
       submitted: this.state.submitted, 
-      submits: this.state.submits
+      submits: this.state.submits,
+      reset: this.reset
 		};
 	}
 
@@ -164,6 +173,18 @@ class Form extends Component {
 				
   }
 
+  reset( field ){
+    this.setState( (prevState) => {
+       let newState = { ...prevState };
+       newState.values[field] = null;
+       newState.touched[field] = null;
+       newState.errors[field] = null;
+       newState.warnings[field] = null;
+       newState.successes[field] = null;
+       return newState;
+    });
+  }
+
 	setValue( field, value ){
 	
     this.setState((prevState, props) => {
@@ -210,7 +231,6 @@ class Form extends Component {
 	}
 
   setError( field, err ){
-
 		this.setState((prevState, props) => {
 			// Pull off the old touched
       let errors = { ...prevState.errors };
@@ -221,7 +241,6 @@ class Form extends Component {
         errors  
       };
     });
-
 	}
 
   setWarning( field, warn ){

@@ -71,6 +71,23 @@ const nestedNestedErrorValidator = (values) => {
 
 };
 
+const hiddenFormErrorValidator = (values) => {
+
+  const validateField = ( field ) => {
+    if ( values[field] !== field ) {
+      return `Not ${field}`;
+    }
+    return null;
+  };
+
+  return {
+    oh: validateField('oh'),
+    no: validateField('no'),
+  };
+
+};
+
+
 const NestedForm2 = () => {
   return (
     <div>
@@ -97,8 +114,51 @@ const NestedForm1 = () => {
   );
 }
 
+const TestNestedForm = ({index}) => { 
+  return (
+    <NestedForm field={index}>
+      <Form validateError={nestedNestedErrorValidator}>
+        <TestForm/>
+      </Form>
+    </NestedForm>
+  );
+}
 
-const FormContent = ({formApi}) => {
+const TestForm = () => { 
+  return (
+    <div>
+      <Text field="one" />
+      <Text field="two" />
+    </div>
+  );
+}
+
+
+
+const NestedForms = () => { 
+  return (
+    <div>
+    { 
+      [1,2,3].map( ( elem, index, arr ) => {
+        return <TestNestedForm index={index} key={index}/>
+      })
+    }
+    </div>
+  )
+}
+
+const HiddenForm = () => {
+  return (
+    <div>
+      <Text field="oh" />
+      <Text field="no" />
+    </div>
+  );
+}
+
+
+
+const FormContent = ({formApi, hidden}) => {
   return (
     <form onSubmit={formApi.submitForm} >
       <Text field="foo" />
@@ -120,6 +180,14 @@ const FormContent = ({formApi}) => {
           <NestedForm1 />
         </Form>
       </NestedForm>
+   	  <NestedForms />
+      { !hidden ? 
+          <NestedForm field="hidden">
+            <Form validateError={hiddenFormErrorValidator}>
+              <HiddenForm />
+            </Form>
+          </NestedForm> : 
+        null }
       <button type="submit">click me!</button>
     </form>
   );
@@ -131,13 +199,19 @@ class Examples extends Component {
     super(props);
     this.state = {
       aprop: false, 
+      hidden: true,
       clicked: 0
     };
     this.setProp = this.setProp.bind(this);
+    this.hideForm = this.hideForm.bind(this);
   }
 
   setProp(){
    this.setState( (prevState) => { return { aprop: this.state.clicked % 2 === 0 ? !prevState.aprop : prevState.aprop, clicked: prevState.clicked + 1 } } ); 
+  }
+
+  hideForm(){
+    this.setState( (prevState) => { return { hidden: !prevState.hidden } } );
   }
 
   render() {
@@ -154,9 +228,10 @@ class Examples extends Component {
           }}
           onSubmit={((values) => { console.log('SUBMIT:', values); })}
           validateError={errorValidator}>
-          <FormContent aprop={this.state.aprop}/>
+          <FormContent aprop={this.state.aprop} hidden={this.state.hidden}/>
         </Form>
         <button onClick={this.setProp}>SETPROP</button>
+        <button onClick={this.hideForm}>Hide Form</button>
       </div>
     );
 
