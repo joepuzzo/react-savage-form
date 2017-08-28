@@ -5,9 +5,14 @@ import React, { Component } from 'react';
 import {
   Form,
   Text,
+  Radio,
+  RadioGroup,
   NestedForm
 } from '../src/index';
 
+
+
+/* ------------------ Validators -----------------*/
 
 const errorValidator = (values) => {
 
@@ -87,6 +92,7 @@ const hiddenFormErrorValidator = (values) => {
 
 };
 
+/* --------------------- Forms --------------------*/
 
 const NestedForm2 = () => {
   return (
@@ -156,9 +162,21 @@ const HiddenForm = () => {
   );
 }
 
+const Group = ({group}) => {
+  return (
+    <div>
+     <small>Hide form:</small>
+     <br/>
+     <small>Yes</small>
+     <Radio group={group} value="yes"/>
+     <small>No</small>
+     <Radio group={group} value="no"/>
+    </div> 
+  ); 
+}
 
-
-const FormContent = ({formApi, hidden}) => {
+const FormContent = ({formApi}) => {
+	const hidden = formApi.values.hideform === 'yes';
   return (
     <form onSubmit={formApi.submitForm} >
       <Text field="foo" />
@@ -181,6 +199,9 @@ const FormContent = ({formApi, hidden}) => {
         </Form>
       </NestedForm>
    	  <NestedForms />
+      <RadioGroup field="hideform" value="yes">
+        <Group />
+      </RadioGroup>
       { !hidden ? 
           <NestedForm field="hidden">
             <Form validateError={hiddenFormErrorValidator}>
@@ -203,16 +224,16 @@ class Examples extends Component {
       clicked: 0
     };
     this.setProp = this.setProp.bind(this);
-    this.hideForm = this.hideForm.bind(this);
+    //this.hideForm = this.hideForm.bind(this);
   }
 
   setProp(){
    this.setState( (prevState) => { return { aprop: this.state.clicked % 2 === 0 ? !prevState.aprop : prevState.aprop, clicked: prevState.clicked + 1 } } ); 
   }
 
-  hideForm(){
+  /*hideForm(){
     this.setState( (prevState) => { return { hidden: !prevState.hidden } } );
-  }
+  }*/
 
   render() {
 
@@ -228,10 +249,10 @@ class Examples extends Component {
           }}
           onSubmit={((values) => { console.log('SUBMIT:', values); })}
           validateError={errorValidator}>
-          <FormContent aprop={this.state.aprop} hidden={this.state.hidden}/>
+          <FormContent aprop={this.state.aprop} />
         </Form>
         <button onClick={this.setProp}>SETPROP</button>
-        <button onClick={this.hideForm}>Hide Form</button>
+        {/* <button onClick={this.hideForm}>Hide Form</button> */}
       </div>
     );
 
