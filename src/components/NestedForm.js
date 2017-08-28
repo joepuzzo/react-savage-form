@@ -9,29 +9,29 @@ import PropTypes from 'prop-types';
 // Inport the form input
 import FormField from './FormField';
 
-class NestedFormWrapper extends Component { 
-  
+class NestedFormWrapper extends Component {
+
   render(){
 
     const {
-      children, 
+      children,
       fieldApi
     } = this.props;
 
     const {
       getValue,
-      setValue, 
-      getTouched, 
-      setError, 
-      setWarning, 
+      setValue,
+      getTouched,
+      setError,
+      setWarning,
       setSuccess,
-      setTouched, 
-      submitted, 
+      setTouched,
+      submitted,
       submits
     } = fieldApi;
 
     return React.cloneElement(children, {
-            // We pass down the fact that the parent form was submitted to the nested form 
+            // We pass down the fact that the parent form was submitted to the nested form
             submitted,
             submits,
             // On change is an internal method that is used to update the parent form
@@ -52,7 +52,7 @@ class NestedFormWrapper extends Component {
               setValue( values );
               setTouched( touched );
               invalid ? setError( errors ) : setError( null );
-              warning ? setWarning( warnings ) : setWarning( null ); 
+              warning ? setWarning( warnings ) : setWarning( null );
               success ? setSuccess( successes ) : setSuccess( null );
             }
 		});
@@ -65,13 +65,13 @@ class NestedForm extends Component {
   render() {
 
     const {
-      field, 
+      field,
       children
     } = this.props;
 
     return (
 			<FormField field={field} nestedForm>
-        <NestedFormWrapper>
+        <NestedFormWrapper field={field} {...children.props}>
           {children}
         </NestedFormWrapper>
 			</FormField>
