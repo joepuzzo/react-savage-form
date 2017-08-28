@@ -17,9 +17,9 @@ class Form extends Component {
       touched: {},
 			errors: {},
 			warnings: {},
-			successes: {}, 
+			successes: {},
       submitted: false,
-      submits: 0 
+      submits: 0
 		}
 		this.getValue = this.getValue.bind(this);
 		this.setValue = this.setValue.bind(this);
@@ -31,7 +31,7 @@ class Form extends Component {
     this.submitForm = this.submitForm.bind(this);
     this.reset = this.reset.bind(this);
 	}
-	
+
   componentDidUpdate(){
     if( this.props.formDidUpdate ){
       this.props.formDidUpdate( this.state );
@@ -43,14 +43,14 @@ class Form extends Component {
 
   componentDidMount(){
     // We want to validate right away
-    // Note, this will trigger compDidUpdate 
+    // Note, this will trigger compDidUpdate
     // and therefore, will trigger the update of nested forms
 	  this.setState((prevState, props) => {
 			// Validate
 			const validations = this.validate( prevState.values );
 			// Return the new state
       return {
-				...validations  
+				...validations
       };
     });
 	}
@@ -68,7 +68,7 @@ class Form extends Component {
       this.setState({submitted: true});
     }
     // If submits was incrimented
-    if( nextProps.submits != this.state.submits ){  
+    if( nextProps.submits != this.state.submits ){
       this.setState( ( prevState ) => { return {submits: prevState.submits + 1 }; } );
     }
   }
@@ -91,33 +91,35 @@ class Form extends Component {
     props1.children = null;
     props2.children = null;
 
+		//console.log(props1, props2);
+
 		const shouldUpdate = JSON.stringify(nextState.values) !== JSON.stringify(this.state.values) ||
-    JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) || 
+    JSON.stringify(nextState.errors) !== JSON.stringify(this.state.errors) ||
     JSON.stringify(nextState.warnings) !== JSON.stringify(this.state.warnings) ||
     JSON.stringify(nextState.successes) !== JSON.stringify(this.state.successes) ||
     JSON.stringify(nextState.touched) !== JSON.stringify(this.state.touched) ||
-    nextState.submits !== this.state.submits || 
-		JSON.stringify( props1 ) !== JSON.stringify( props2 ) || 
+    nextState.submits !== this.state.submits ||
+		JSON.stringify( props1 ) !== JSON.stringify( props2 ) ||
     nextState.submitted !== this.state.submitted;
     return shouldUpdate || false;
 	}
 
   get api(){
 		return {
-			values: this.state.values, 
-			errors: this.state.errors, 
-			warnings: this.state.warnings, 
+			values: this.state.values,
+			errors: this.state.errors,
+			warnings: this.state.warnings,
       touched: this.state.touched,
-			successes: this.state.successes, 
-      submitForm: this.submitForm, 
-      setValue: this.setValue, 
-      getValue: this.getValue, 
-      setTouched: this.setTouched, 
-      getTouched: this.getTouched, 
-      setError: this.setError, 
-      setWarning: this.setWarning, 
-      setSuccess: this.setSuccess, 
-      submitted: this.state.submitted, 
+			successes: this.state.successes,
+      submitForm: this.submitForm,
+      setValue: this.setValue,
+      getValue: this.getValue,
+      setTouched: this.setTouched,
+      getTouched: this.getTouched,
+      setError: this.setError,
+      setWarning: this.setWarning,
+      setSuccess: this.setSuccess,
+      submitted: this.state.submitted,
       submits: this.state.submits,
       reset: this.reset
 		};
@@ -126,8 +128,8 @@ class Form extends Component {
 	validate( values, field ){
 		// Call validators
 		const {
-			validateError, 
-			validateWarning, 
+			validateError,
+			validateWarning,
 			validateSuccess
 		}	= this.props;
 		let errors = validateError ? validateError( values ) : {};
@@ -137,12 +139,12 @@ class Form extends Component {
     warnings = { ...this.state.warnings, ...warnings };
     successes = { ...this.state.successes, ...successes };
 		return {
-			errors, 
-			warnings, 
+			errors,
+			warnings,
 			successes
 		}
 	}
- 
+
   submitForm( e ) {
 
 		e && e.preventDefault && e.preventDefault(e);
@@ -165,12 +167,12 @@ class Form extends Component {
 			const validations = this.validate( prevState.values );
 			// Return the new state
       return {
-				...validations, 
-        submitted: true, 
+				...validations,
+        submitted: true,
         submits: prevState.submits + 1
       };
     }, onSubmit );
-				
+
   }
 
   reset( field ){
@@ -186,7 +188,7 @@ class Form extends Component {
   }
 
 	setValue( field, value ){
-	
+
     this.setState((prevState, props) => {
 			// Pull off the old values
       let values = { ...prevState.values };
@@ -201,7 +203,7 @@ class Form extends Component {
 			// Return the new state
       return {
         values,
-				...validations  
+				...validations
       };
     });
 
@@ -220,7 +222,7 @@ class Form extends Component {
 		 	touched[field] = touch;
 			// Return the new state
       return {
-        touched  
+        touched
       };
     });
 
@@ -238,7 +240,7 @@ class Form extends Component {
 		 	errors[field] = err;
 			// Return the new state
       return {
-        errors  
+        errors
       };
     });
 	}
@@ -252,7 +254,7 @@ class Form extends Component {
 		 	warnings[field] = warn;
 			// Return the new state
       return {
-        warnings  
+        warnings
       };
     });
 
@@ -267,7 +269,7 @@ class Form extends Component {
 		 	successes[field] = succ;
 			// Return the new state
       return {
-        successes  
+        successes
       };
     });
 
@@ -276,7 +278,7 @@ class Form extends Component {
   render() {
 
     const {
-      children 
+      children
     } = this.props;
 
   	// Give children access to properties
@@ -291,7 +293,7 @@ class Form extends Component {
 
     /*return (
       <div>
-        {children}  
+        {children}
       </div>
     );*/
 
@@ -307,4 +309,3 @@ Form.childContextTypes = {
 
 /* ---------- Exports ---------- */
 export default Form;
-

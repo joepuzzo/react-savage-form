@@ -27,12 +27,27 @@ class FormField extends Component {
     //console.log(`Compare -- ${nextProps.field}:`, this.context.formApi.values[field], nextContext.formApi.values[field] )
     const currentApi = this.context.formApi;
     const nextApi = nextContext.formApi;
-    const shouldUpdate = nextApi.values[field] != currentApi.values[field] || 
-           nextApi.touched[field] != currentApi.touched[field] || 
-           nextApi.errors[field] != currentApi.errors[field] || 
-           nextApi.warnings[field] != currentApi.warnings[field] || 
-           nextApi.successes[field] != currentApi.successes[field] || 
+
+
+    //Check child props for changes so we know to re-render
+    const props1 = { ...this.props.children.props };
+    const props2 = { ...nextProps.children.props };
+
+    // Remove children so we can do shallow compare
+    props1.children = null;
+    props2.children = null;
+
+    //console.log( field, "FOOBAR", props1, props2);
+
+    const shouldUpdate = nextApi.values[field] != currentApi.values[field] ||
+           nextApi.touched[field] != currentApi.touched[field] ||
+           nextApi.errors[field] != currentApi.errors[field] ||
+           nextApi.warnings[field] != currentApi.warnings[field] ||
+           nextApi.successes[field] != currentApi.successes[field] ||
+           JSON.stringify( props1 ) !== JSON.stringify( props2 ) ||
            nextContext.formApi.submits !== this.context.formApi.submits;
+
+    //console.log( field, "FOOBAR", shouldUpdate);
     return shouldUpdate || false;
 	}
 
@@ -41,26 +56,26 @@ class FormField extends Component {
 
     //console.log("RENDER FIELD", this.props.field);
 
-	  const { 
-      formApi 
+	  const {
+      formApi
     } = this.context;
 
     const {
-      children, 
-      field 
+      children,
+      field
     } = this.props;
 
-    // Build field api from form api 
+    // Build field api from form api
     const fieldApi = {
       setValue: ( value ) => { formApi.setValue( field, value ) },
       setTouched: ( touched ) => { formApi.setTouched( field, touched ) },
       setError: ( error ) => { formApi.setError( field, error ) },
       setWarning: ( warning ) => { formApi.setWarning( field, warning ) },
       setSuccess: ( success ) => { formApi.setSuccess( field, success ) },
-      getValue: ( ) => formApi.getValue( field ), 
-      getTouched: ( ) => formApi.getTouched( field ), 
+      getValue: ( ) => formApi.getValue( field ),
+      getTouched: ( ) => formApi.getTouched( field ),
       reset: ( ) => formApi.reset( field ),
-      submitted: formApi.submitted, 
+      submitted: formApi.submitted,
       submits: formApi.submits
     }
 
