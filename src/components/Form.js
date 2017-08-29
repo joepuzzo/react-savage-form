@@ -59,7 +59,7 @@ class Form extends Component {
       this.setState({ submitted: true });
     }
     // If submits was incrimented
-    if ( nextProps.submits !== this.state.submits ) {
+    if ( nextProps.submits > this.state.submits ) {
       this.setState( prevState => ({ submits: prevState.submits + 1 }) );
     }
   }

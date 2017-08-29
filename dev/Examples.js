@@ -161,7 +161,7 @@ const HiddenForm = () => {
 const Group = ({ group }) => {
   return (
     <div>
-      <label for="fa">Hide form:</label>
+      <label>Hide form:</label>
       <br />
       <small>Yes</small>
       <Radio group={group} value="yes" />
@@ -208,7 +208,7 @@ const FormContent = ({ formApi, aprop }) => {
         </NestedForm> :
         null
       }
-      <button type="submit" form="form1">click me!</button>
+      <button type="submit" key="submitbutton">click me!</button>
     </form>
   );
 
@@ -231,7 +231,6 @@ class Examples extends Component {
     this.setState( (prevState) => {
       return { aprop: this.state.clicked % 2 === 0 ? !prevState.aprop : prevState.aprop, clicked: prevState.clicked + 1 };
     });
-    return false;
   }
 
   render() {
@@ -251,7 +250,7 @@ class Examples extends Component {
           <FormContent aprop={this.state.aprop} />
         </Form>
         <br />
-        <button type="button" onClick={this.setProp}>SETPROP</button>
+        <button type="button" onClick={this.setProp} key="propbutton">SETPROP</button>
       </div>
     );
 
