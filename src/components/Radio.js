@@ -16,25 +16,23 @@ class Radio extends Component {
       onChange,
       onClick,
       group,
-      value
+      value,
+      ...rest
     } = this.props;
 
     return (
       <input
         checked={group.getValue() === value}
         onBlur={() => group.setTouched()}
-        onChange={(e) => {
-          if (onChange) {
-            onChange(e);
-          }
-        }}
         onClick={(e) => {
           group.setValue(value);
+          group.fieldDidUpdate(value);
           if (onClick) {
             onClick(e);
           }
         }}
-        type="radio" />
+        type="radio"
+        {...rest} />
     );
 
   }

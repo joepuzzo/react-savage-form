@@ -9,15 +9,16 @@ import PropTypes from 'prop-types';
 // Inport the form input
 import FormField from './FormField';
 
-class TextWrapper extends Component {
+class TextAreaWrapper extends Component {
 
   render() {
 
     // console.log('RENDER');
 
     const {
-      fieldDidUpdate,
+      onChange,
       fieldApi,
+      fieldDidUpdate,
       onInput,
       ...rest
     } = this.props;
@@ -30,7 +31,7 @@ class TextWrapper extends Component {
 
     return (
       <div>
-        <input
+        <textarea
           value={getValue('')}
           onInput={( e ) => {
             setValue(e.target.value);
@@ -40,16 +41,16 @@ class TextWrapper extends Component {
             if ( onInput ) {
               onInput( e );
             }
-          }
-          }
+          }}
           onBlur={() => setTouched()}
           {...rest} />
       </div>
     );
+
   }
 }
 
-class Text extends Component {
+class TextArea extends Component {
 
   render() {
     const {
@@ -57,19 +58,17 @@ class Text extends Component {
       ...rest
     } = this.props;
 
-    //console.log("REST", rest);
-
     return (
       <FormField field={field}>
-        <TextWrapper {...rest} />
+        <TextAreaWrapper {...rest} />
       </FormField>
     );
   }
 
 }
 
-Text.propTypes = {
+TextArea.propTypes = {
   field: PropTypes.string.isRequired
 };
 
-export default Text;
+export default TextArea;

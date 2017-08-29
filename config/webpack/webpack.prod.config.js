@@ -1,10 +1,15 @@
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  entry: path.join(__dirname, '../../src/index.js'),
-  target: 'node', // in order to ignore built-in modules like path, fs, etc.
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+  entry: [
+    'babel-polyfill',
+    path.join(__dirname, '../../dev/index.js'),
+  ],
+  output: {
+    filename: 'bundle.js',
+    path: path.join(__dirname, '../../build'),
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -26,11 +31,5 @@ module.exports = {
         loader: 'url-loader',
       }
     ]
-  },
-  output: {
-    filename: 'index.js',
-    path: path.join(__dirname, '../../'),
-    library: 'react-savage-form',
-    libraryTarget: 'umd',
   }
 };

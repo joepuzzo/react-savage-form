@@ -24,8 +24,16 @@ class RadioGroupWrapper extends Component {
 
     const {
       fieldApi,
-      children
+      children,
+      fieldDidUpdate
     } = this.props;
+
+    // Add fieldDidUpdate to field api
+    fieldApi.fieldDidUpdate = ( val ) => {
+      if ( fieldDidUpdate ) {
+        fieldDidUpdate( val );
+      }
+    };
 
     // Expose field api as group
     return React.cloneElement(children, { group: fieldApi } );
