@@ -11,7 +11,7 @@
     "start": "NODE_ENV=development webpack-dev-server -d --config config/webpack/webpack.dev.config.js --port 4005 --hot",
     "build:dev": "NODE_ENV=development webpack --config config/webpack/webpack.dev.config.js",
     "build:dist": "NODE_ENV=production webpack -p --config config/webpack/webpack.dist.config.js",
-    "eslint": "eslint"
+    "eslint": "eslint src/** --fix"
   },
   "author": {
     "name": "Joseph Puzzo",

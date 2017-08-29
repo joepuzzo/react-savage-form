@@ -11,9 +11,9 @@ import FormField from './components/FormField';
 
 export {
   Form,
-  Text, 
-  NestedForm, 
-	FormField, 
-  RadioGroup, 
+  Text,
+  NestedForm,
+  FormField,
+  RadioGroup,
   Radio
-}
+};

@@ -13,4 +13,3 @@ const render = (Component) => {
 };
 
 render(Examples);
-

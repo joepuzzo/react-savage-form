@@ -13,33 +13,32 @@ class TextWrapper extends Component {
 
   render() {
 
-    //console.log('RENDER');
+    // console.log('RENDER');
 
     const {
-			onChange, 
+      onChange,
       fieldApi
     } = this.props;
 
-     const {
+    const {
       getValue,
-      setValue, 
-      getTouched, 
+      setValue,
       setTouched
     } = fieldApi;
 
     return (
-       <div>
-       <input
-        value={getValue('')}
-        onChange={( e ) => {
+      <div>
+        <input
+          value={getValue('')}
+          onChange={( e ) => {
             setValue(e.target.value);
             if ( onChange ) {
               onChange(e);
             }
           }
-        }
-        onBlur={() => setTouched()} /> 
-       </div>
+          }
+          onBlur={() => setTouched()} />
+      </div>
     );
   }
 }
@@ -52,13 +51,17 @@ class Text extends Component {
       ...rest
     } = this.props;
 
-    return ( 
+    return (
       <FormField field={field}>
-        <TextWrapper {...rest}/>
+        <TextWrapper {...rest} />
       </FormField>
     );
   }
 
 }
+
+Text.propTypes = {
+  field: PropTypes.string.isRequired
+};
 
 export default Text;

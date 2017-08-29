@@ -6,64 +6,44 @@ import React, { Component } from 'react';
 // Import PropTypes library
 import PropTypes from 'prop-types';
 
-// Inport the form input
-import FormField from './FormField';
+class Radio extends Component {
 
-class RadioWrapper extends Component {
+  // console.log('RENDER');
 
   render() {
 
-    //console.log('RENDER');
-
     const {
-			onChange, 
+      onChange,
       onClick,
-      group, 
+      group,
       value
     } = this.props;
 
-     const {
-      getValue,
-      setValue, 
-      getTouched, 
-      setTouched
-    } = group;
-
     return (
-			<input
-				checked={group.getValue() === value}
-				onBlur={() => group.setTouched()}
-				onChange={(e) => {
-					if (onChange) {
-						onChange(e);
-					}
-				}}
-				onClick={(e) => {
-					group.setValue(value);
-					if (onClick) {
-						onClick(e);
-					}
-				}}
-				type="radio" />
+      <input
+        checked={group.getValue() === value}
+        onBlur={() => group.setTouched()}
+        onChange={(e) => {
+          if (onChange) {
+            onChange(e);
+          }
+        }}
+        onClick={(e) => {
+          group.setValue(value);
+          if (onClick) {
+            onClick(e);
+          }
+        }}
+        type="radio" />
     );
-  }
-}
 
-class Radio extends Component {
-
-  render() {
-    const {
-      field,
-      ...rest
-    } = this.props;
-
-    return ( 
-      <FormField field={field}>
-        <RadioWrapper {...rest}/>
-      </FormField>
-    );
   }
 
 }
+
+Radio.propTypes = {
+  value: PropTypes.string.isRequired,
+  group: PropTypes.object.isRequired
+};
 
 export default Radio;
