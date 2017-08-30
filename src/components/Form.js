@@ -38,29 +38,31 @@ class Form extends Component {
     };
   }
 
-  componentDidMount() {
-    // We want to validate right away
-    // Note, this will trigger compDidUpdate
-    // and therefore, will trigger the update of nested forms
-    // TODO maybe get rid of this
-    this.setState((prevState) => {
-      // Validate
-      const validations = this.validate( prevState.values );
-      // Return the new state
-      return {
-        ...validations
-      };
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
+    console.log("HERE!!", this.state.errors);
     // If we are told we are submitted and we went from true to false ( not undefined to somthing else ) then submit
     if ( nextProps.submitted !== this.state.submitted && nextProps.submitted === true && this.state.submitted === false ) {
       this.setState({ submitted: true });
     }
     // If submits was incrimented
     if ( nextProps.submits > this.state.submits ) {
-      this.setState( prevState => ({ submits: prevState.submits + 1 }) );
+      //this.setState( prevState => ({ submits: prevState.submits + 1 }) );
+      this.setState((prevState) => {
+        // Pull off the old values
+        let values = { ...prevState.values };
+        // Pre validate
+        if ( this.props.preValidate ) {
+          values = this.props.preValidate( values );
+        }
+        // Validate
+        const validations = this.validate( values );
+        // Return the new state
+        return {
+          values,
+          ...validations,
+          submits: prevState.submits + 1
+        };
+      });
     }
   }
 
@@ -82,11 +84,11 @@ class Form extends Component {
       nextState.submits !== this.state.submits ||
       JSON.stringify( props1 ) !== JSON.stringify( props2 ) ||
       nextState.submitted !== this.state.submitted;
-
+    //console.log("SHOULD UPDATE", shouldUpdate);
     return shouldUpdate || false;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if ( this.props.formDidUpdate ) {
       this.props.formDidUpdate( this.state );
     }
@@ -98,6 +100,7 @@ class Form extends Component {
   componentWillUnmount() {
     // Reset the form if it has reset
     if ( this.props.reset ) {
+      // Basically calling parent forms reset function
       this.props.reset();
     }
   }
@@ -152,7 +155,7 @@ class Form extends Component {
   setTouched( field, touch = true ) {
 
     this.setState((prevState) => {
-      // Pull off the old touched
+      // Pull off the touched
       const touched = { ...prevState.touched };
       // Update the touched value
       touched[field] = touch;
@@ -170,7 +173,7 @@ class Form extends Component {
 
   setError( field, err ) {
     this.setState((prevState) => {
-      // Pull off the old touched
+      // Pull off the errors
       const errors = { ...prevState.errors };
       // Update the errors value
       errors[field] = err;
@@ -184,7 +187,7 @@ class Form extends Component {
   setWarning( field, warn ) {
 
     this.setState((prevState) => {
-      // Pull off the old touched
+      // Pull off the warnings
       const warnings = { ...prevState.warnings };
       // Update the errors value
       warnings[field] = warn;
@@ -199,7 +202,7 @@ class Form extends Component {
   setSuccess( field, succ ) {
 
     this.setState((prevState) => {
-      // Pull off the old touched
+      // Pull off the successes
       const successes = { ...prevState.successes };
       // Update the errors value
       successes[field] = succ;
@@ -261,7 +264,10 @@ class Form extends Component {
 
   reset( field ) {
     this.setState( (prevState) => {
-      const newState = { ...prevState };
+      // TODO refactor to better solution maybe
+      // technically this is ok to de because we know that
+      // values, errors, successes, etc should just be objects with strings
+      const newState = JSON.parse( JSON.stringify( prevState ) );
       newState.values[field] = null;
       newState.touched[field] = null;
       newState.errors[field] = null;

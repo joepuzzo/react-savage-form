@@ -1,6 +1,6 @@
 /* ------------- Imports -------------- */
 import React, { Component } from 'react';
-import Highlight from 'react-highlight';
+import { PrismCode } from 'react-prism';
 
 class Code extends Component {
 
@@ -8,13 +8,14 @@ class Code extends Component {
 
     const {
       children,
-      type
     } = this.props;
 
     return (
-      <Highlight className={`language-${type}`} >
-        {children}
-      </Highlight>
+      <pre>
+        <PrismCode className="language-jsx">
+          {children}
+        </PrismCode>
+      </pre>
     );
   }
 }

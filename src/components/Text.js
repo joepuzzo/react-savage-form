@@ -29,22 +29,20 @@ class TextWrapper extends Component {
     } = fieldApi;
 
     return (
-      <div>
-        <input
-          value={getValue('')}
-          onInput={( e ) => {
-            setValue(e.target.value);
-            if ( fieldDidUpdate ) {
-              fieldDidUpdate(e.target.value);
-            }
-            if ( onInput ) {
-              onInput( e );
-            }
+      <input
+        value={getValue('')}
+        onInput={( e ) => {
+          setValue(e.target.value);
+          if ( fieldDidUpdate ) {
+            fieldDidUpdate(e.target.value);
           }
+          if ( onInput ) {
+            onInput( e );
           }
-          onBlur={() => setTouched()}
-          {...rest} />
-      </div>
+        }
+        }
+        onBlur={() => setTouched()}
+        {...rest} />
     );
   }
 }

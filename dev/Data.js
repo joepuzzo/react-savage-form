@@ -1,21 +1,28 @@
 /* ------------- Imports -------------- */
 import React, { Component } from 'react';
-import Highlight from 'react-highlight';
+import { PrismCode } from 'react-prism';
 
 class Data extends Component {
 
   render() {
 
     const {
-      values
-    } = this.props.formApi;
+      title,
+      data,
+      reference
+    } = this.props;
+
+    const code = JSON.stringify(data, null, 2);
 
     return (
-      <div>
-        <h5>Values:</h5>
-        <Highlight className="language-js" >
-          {JSON.stringify(values, null, 2)}
-        </Highlight>
+      <div className="mb-4">
+        { title ? <h5 className="d-inline-block mr-3">{`${title}:`}</h5> : null }
+        { reference ? <span>(<code >{reference}</code>)</span> : null }
+        <pre>
+          <PrismCode className="language-javascript">
+            {code}
+          </PrismCode>
+        </pre>
       </div>
     );
   }

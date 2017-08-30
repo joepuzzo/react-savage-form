@@ -1,5 +1,6 @@
 /* ------------- Imports -------------- */
 import React, { Component } from 'react';
+import Data from './Data';
 
 /* ------------- Form  Library Imports -------------- */
 import {
@@ -74,6 +75,22 @@ const nestedNestedErrorValidator = (values) => {
 
 };
 
+const mappedNestedErrorValidator = (values) => {
+
+  const validateField = ( field ) => {
+    if ( values[field] !== field ) {
+      return `Not ${field}`;
+    }
+    return null;
+  };
+
+  return {
+    one: validateField('one'),
+    two: validateField('two')
+  };
+
+};
+
 const hiddenFormErrorValidator = (values) => {
 
   const validateField = ( field ) => {
@@ -120,8 +137,8 @@ const NestedForm1 = () => {
 
 const TestNestedForm = ({ index }) => {
   return (
-    <NestedForm field={index}>
-      <Form validateError={nestedNestedErrorValidator}>
+    <NestedForm field={index} key={`bar${index}`}>
+      <Form validateError={mappedNestedErrorValidator} key={`foo${index}`}>
         <TestForm />
       </Form>
     </NestedForm>
@@ -172,43 +189,52 @@ const Group = ({ group }) => {
 
 const FormContent = ({ formApi, aprop }) => {
 
-  const hidden = formApi.values.hideform === 'yes';
+  const hidden = !formApi.values.hideform || formApi.values.hideform === 'yes';
 
   return (
-    <form onSubmit={formApi.submitForm} id="form1">
-      <Text field="foo" />
-      <Text field="bar" />
-      <Text field="baz" />
-      <Text field="raz" />
-      <Text field="taz" />
-      <Text field="fuck" />
-      <Text field="a" />
-      <Text field="b" />
-      <Text field="c" />
-      <Text field="d" />
-      <Text field="e" />
-      <Text field="f" />
-      <Text field="g" />
-      <Text field="h" />
-      <NestedForm field="color">
-        <Form validateError={nestedErrorValidator}>
-          <NestedForm1 aprop={aprop} />
-        </Form>
-      </NestedForm>
-      <NestedForms />
-      <RadioGroup field="hideform" value="yes">
-        <Group />
-      </RadioGroup>
-      { !hidden ?
-        <NestedForm field="hidden">
-          <Form validateError={hiddenFormErrorValidator}>
-            <HiddenForm />
-          </Form>
-        </NestedForm> :
-        null
-      }
-      <button type="submit" className="mb-2 btn btn-primary">Submit</button>
-    </form>
+    <div className="row">
+      <div className="col-md-2">
+        <form onSubmit={formApi.submitForm} id="form1">
+          <Text field="foo" />
+          <Text field="bar" />
+          <Text field="baz" />
+          <Text field="raz" />
+          <Text field="taz" />
+          <Text field="fuck" />
+          <Text field="a" />
+          <Text field="b" />
+          <Text field="c" />
+          <Text field="d" />
+          <Text field="e" />
+          <Text field="f" />
+          <Text field="g" />
+          <Text field="h" />
+          <NestedForm field="color">
+            <Form validateError={nestedErrorValidator}>
+              <NestedForm1 aprop={aprop} />
+            </Form>
+          </NestedForm>
+          <NestedForms />
+          <RadioGroup field="hideform">
+            <Group />
+          </RadioGroup>
+          { !hidden ?
+            <NestedForm field="hidden">
+              <Form validateError={hiddenFormErrorValidator}>
+                <HiddenForm />
+              </Form>
+            </NestedForm> :
+            null
+          }
+          <button type="submit" className="mb-2 btn btn-primary">Submit</button>
+        </form>
+      </div>
+      <div className="col-md-10">
+        <Data title="values" data={formApi.values} />
+        <Data title="errors" data={formApi.errors} />
+        <Data title="touched" data={formApi.touched} />
+      </div>
+    </div>
   );
 
 };

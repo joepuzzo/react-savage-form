@@ -8,7 +8,9 @@ import {
   Text,
   Radio,
   RadioGroup,
-  TextArea
+  TextArea,
+  Select,
+  Checkbox
 } from '../src/index';
 
 /* ---------------- Other Imports ------------------ */
@@ -16,25 +18,35 @@ import {
 import Data from './Data';
 import Code from './Code';
 
-/* -------------------- Styles ----------------------*/
-
-const fieldMargin = { marginBottom: '.5rem' };
-
-
 /* ------------------ Form Stuff --------------------*/
 
 const Radios = ({ group }) => {
   return (
     <div>
-      <label htmlFor="male" className="mr-1">Male</label>
-      <Radio group={group} value="male" id="male" className="mr-2" />
-      <label htmlFor="female" className="mr-1">Female</label>
-      <Radio group={group} value="female" id="female" />
+      <label htmlFor="male" className="mr-2">Male</label>
+      <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
+      <label htmlFor="female" className="mr-2">Female</label>
+      <Radio group={group} value="female" id="female" className="d-inline-block" />
     </div>
   );
 };
 
-const FormContent = ({ formApi }) => {
+const FormContent = ({ formApi, submittedValues }) => {
+
+  const statusOptions = [
+    {
+      label: 'Single',
+      value: 'single'
+    },
+    {
+      label: 'In a Relationship',
+      value: 'relationship'
+    },
+    {
+      label: "It's Complicated",
+      value: 'complicated'
+    }
+  ];
 
   return (
     <div>
@@ -46,11 +58,19 @@ const FormContent = ({ formApi }) => {
         <RadioGroup field="gender">
           <Radios />
         </RadioGroup>
-        <TextArea field="bio"/>
-        <button type="submit" className="mb-2 btn btn-primary">Submit</button>
+        <TextArea field="bio" />
+        <label htmlFor="authorize" className="mr-2">Authorize</label>
+        <Checkbox field="authorize" id="authorize" className="d-inline-block" />
+        <label htmlFor="status" className="d-block">Relationship status</label>
+        <Select field="status" id="status" options={statusOptions} className="mb-4" />
+        <button type="submit" className="mb-4 btn btn-primary">Submit</button>
       </form>
-      <hr />
-      <Data formApi={formApi} />
+      <br />
+      <Data title="Values" reference="formApi.values" data={formApi.values} />
+      <Data title="Touched" reference="formApi.touched" data={formApi.touched} />
+      <Data title="Submission attempts" reference="formApi.submits" data={formApi.submits} />
+      <Data title="Submitted" reference="formApi.submitted" data={formApi.submitted} />
+      <Data title="Submitted values" reference="onSubmit={ (submittedValues) => {} }" data={submittedValues} />
     </div>
   );
 
@@ -59,7 +79,24 @@ const FormContent = ({ formApi }) => {
 const BasicFormCode = () => {
 
   const code = `
+  import { Form, Text, Radio, RadioGroup, Select, Checkbox } from 'react-savage-form';
+
   const FormContent = ({ formApi }) => {
+
+    const statusOptions = [
+      {
+        label: 'Single',
+        value: 'single'
+      },
+      {
+        label: 'In a Relationship',
+        value: 'relationship'
+      },
+      {
+        label: "It's Complicated",
+        value: 'complicated'
+      }
+    ];
 
     return (
       <div>
@@ -71,20 +108,40 @@ const BasicFormCode = () => {
           <RadioGroup field="gender">
             <Radios />
           </RadioGroup>
-          <TextArea field="bio"/>
-          <button type="submit" className="mb-2 btn btn-primary">Submit</button>
+          <TextArea field="bio" />
+          <label htmlFor="authorize" className="mr-2">Authorize</label>
+          <Checkbox field="authorize" id="authorize" className="d-inline-block" />
+          <label htmlFor="status" className="d-block">Relationship status</label>
+          <Select field="status" id="status" options={statusOptions} />
+          <button type="submit">Submit</button>
         </form>
-        <hr />
-        <Data formApi={formApi} />
       </div>
     );
-
   };
+
+
+  class BasicForm extends Component {
+
+    constructor( props ) {
+      super( props );
+      this.state = {};
+    }
+
+    render() {
+      return (
+        <div>
+          <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
+            <FormContent />
+          </Form>
+        </div>
+      );
+    }
+  }
 `;
 
   return (
     <div>
-      <h5>Code:</h5>
+      <h5>Source Code:</h5>
       <Code type="html">
         {code}
       </Code>
@@ -94,16 +151,21 @@ const BasicFormCode = () => {
 
 class BasicForm extends Component {
 
+  constructor( props ) {
+    super( props );
+    this.state = {};
+  }
+
   render() {
 
     return (
       <div>
-        <h3>Basic Form</h3>
-        <Form
-          onSubmit={((values) => { console.log(values) })}>
-          <FormContent />
+        <h2 className="mb-4">Basic Form</h2>
+        <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
+          <FormContent submittedValues={this.state.submittedValues} />
         </Form>
-        <BasicFormCode/>
+        <br />
+        <BasicFormCode />
       </div>
     );
   }

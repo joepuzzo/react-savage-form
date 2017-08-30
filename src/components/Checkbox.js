@@ -9,17 +9,16 @@ import PropTypes from 'prop-types';
 // Inport the form input
 import FormField from './FormField';
 
-class TextAreaWrapper extends Component {
+class CheckboxWrapper extends Component {
 
   render() {
 
     // console.log('RENDER');
 
     const {
-      onChange,
-      fieldApi,
       fieldDidUpdate,
-      onInput,
+      fieldApi,
+      onChange,
       ...rest
     } = this.props;
 
@@ -30,25 +29,25 @@ class TextAreaWrapper extends Component {
     } = fieldApi;
 
     return (
-      <textarea
-        value={getValue('')}
-        onInput={( e ) => {
-          setValue(e.target.value);
-          if ( fieldDidUpdate ) {
-            fieldDidUpdate(e.target.value);
+      <input
+        checked={getValue()}
+        onBlur={() => setTouched()}
+        onChange={(e) => {
+          setValue(e.target.checked);
+          if (onChange) {
+            onChange(e);
           }
-          if ( onInput ) {
-            onInput( e );
+          if ( fieldDidUpdate ) {
+            fieldDidUpdate( e.target.checked );
           }
         }}
-        onBlur={() => setTouched()}
+        type="checkbox"
         {...rest} />
     );
-
   }
 }
 
-class TextArea extends Component {
+class Checkbox extends Component {
 
   render() {
     const {
@@ -58,15 +57,15 @@ class TextArea extends Component {
 
     return (
       <FormField field={field}>
-        <TextAreaWrapper {...rest} />
+        <CheckboxWrapper {...rest} />
       </FormField>
     );
   }
 
 }
 
-TextArea.propTypes = {
+Checkbox.propTypes = {
   field: PropTypes.string.isRequired
 };
 
-export default TextArea;
+export default Checkbox;
