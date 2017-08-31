@@ -1,6 +1,6 @@
 /* ---------- imports ---------- */
 
-import Form from './components/Form';
+import Form from './components/ReduxForm';
 import Text from './components/Text';
 import Radio from './components/Radio';
 import TextArea from './components/TextArea';

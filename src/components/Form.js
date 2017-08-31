@@ -39,7 +39,6 @@ class Form extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("HERE!!", this.state.errors);
     // If we are told we are submitted and we went from true to false ( not undefined to somthing else ) then submit
     if ( nextProps.submitted !== this.state.submitted && nextProps.submitted === true && this.state.submitted === false ) {
       this.setState({ submitted: true });
