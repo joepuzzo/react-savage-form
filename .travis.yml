@@ -1,0 +1,11 @@
+script: npm run build:prod
+deploy:
+  provider: cloudfoundry
+  api: https://api.sandbox.sys.paas.lmig.com
+  username: jgpuzzo@metrocast.net
+  password:
+    secure: VFVwezvHleUyQ3RtO7MOhOh1vPnVVU2GNOEsXObpOil0NpYn5m0BLmW+gO1RxJlRYac6pzA65clzYdtDf2WqQeoexVqVvAKy/htxxvu0axDqfwwESTNp+POE9d2XSWtMPHqCNl70P7KH5GqjKT+QoBYYm7Pn7GJUuA6zsTAS0QiXnCQn1YORjj7HNwOslPOelmJQQgCjPBvClQh8e4tu1WLWYRFolXk+0/olGu/qDlL2Bqabr1h9TNFsEQAdWAta5gGfVetuOED/yapvS6ZagNGHNWb9dl4YrKrKJE7HN3kbghRYMseoYpIeKt4OTBa6IT0Wkqm34FST8HKJ2BYs1gLFjl09tdIp7fWBacrzAOyuYxL44XWWy+beWA6hyDv4pjeW5DrYL7PRg3RvTo7HbUi0r/xraxPRL2Z81QqM9Nuh4P4Xx6Fx1/ttsKBGEZPUCG2Pw2iqd/VBMHl7/8h4Z27KYFcjes8tq2j97oGJwZC5Za5KBmVCktRuWGSfFFZfPPnTjHqJyu+kikkCd0kqX+w8gWEKPl6TuhhMMan3P4e0TV/3V722EmZ+J+9C7wDtTEgCnlbU/t1NjZwYFyREjjEXPimRWaP63Me8TLD3XNHNUCfXTOrsSGxo9i0LDOBKNqfUtWqIyLBMunJve8CcQSv5voGOOobb4rT5rB4EcB4=
+  organization: puzzo.sandbox
+  space: development
+  on:
+    repo: joepuzzo/react-savage-form
