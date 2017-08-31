@@ -22,12 +22,25 @@ const errorValidator = (values) => {
     return null;
   };
 
+  const validateNickName = ( nickname ) => {
+    if ( !nickname || nickname === '' ) {
+      return 'Nickname field cannot be empty';
+    }
+    return null;
+  };
+
+  const validateNicknames = ( ) => {
+    if ( !values.nicknames || values.nicknames.length < 2 ) {
+      return 'You must enter two nicknames!';
+    }
+    return values.nicknames.map( nickname => validateNickName(nickname) );
+  };
+
   return {
     foo: validateField('foo'),
     bar: validateField('bar'),
     baz: validateField('baz'),
-    raz: validateField('raz'),
-    taz: validateField('taz'),
+    nicknames: validateNicknames(),
     fuck: validateField('fuck'),
     a: validateField('a'),
     b: validateField('b'),
@@ -137,7 +150,7 @@ const NestedForm1 = () => {
 
 const TestNestedForm = ({ index }) => {
   return (
-    <NestedForm field={index} key={`bar${index}`}>
+    <NestedForm field={['forms', index]} key={`bar${index}`}>
       <Form validateError={mappedNestedErrorValidator} key={`foo${index}`}>
         <TestForm />
       </Form>
@@ -198,8 +211,8 @@ const FormContent = ({ formApi, aprop, setProp }) => {
           <Text field="foo" />
           <Text field="bar" />
           <Text field="baz" />
-          <Text field="raz" />
-          <Text field="taz" />
+          <Text field={["nicknames", 0]} />
+          <Text field={["nicknames", 1]} />
           <Text field="fuck" />
           <Text field="a" />
           <Text field="b" />

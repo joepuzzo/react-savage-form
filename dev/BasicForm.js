@@ -161,7 +161,8 @@ class BasicForm extends Component {
     return (
       <div>
         <h2 className="mb-4">Basic Form</h2>
-        <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
+        <Form
+          onSubmit={submittedValues => this.setState( { submittedValues } )}>
           <FormContent submittedValues={this.state.submittedValues} />
         </Form>
         <br />

@@ -36,9 +36,7 @@ const NestedFormWrapper = (props) => {
     update: ({ values, errors, successes, warnings, touched }) => {
 
       const invalid = errors ? Object.keys(errors).some( k => errors[k]) : false;
-
       const success = successes ? Object.keys(successes).some( k => successes[k]) : false;
-
       const warning = warnings ? Object.keys(warnings).some( k => warnings[k]) : false;
 
       setValue( values );
@@ -71,7 +69,10 @@ class NestedForm extends Component {
 }
 
 NestedForm.propTypes = {
-  field: PropTypes.string.isRequired
+  field: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
 };
 
 export default NestedForm;

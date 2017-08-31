@@ -66,7 +66,10 @@ class TextArea extends Component {
 }
 
 TextArea.propTypes = {
-  field: PropTypes.string.isRequired
+  field: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
 };
 
 export default TextArea;

@@ -30,7 +30,14 @@ const setValue = ( state, action ) => {
   } = action;
 
   const newValues = { ...state.values };
-  newValues[field] = value;
+
+  if ( Array.isArray(field) ) {
+    newValues[field[0]] = newValues[field[0]] || [];
+    newValues[field[0]][field[1]] = value;
+  }
+  else {
+    newValues[field] = value;
+  }
 
   return {
     ...state,
@@ -47,7 +54,14 @@ const setTouched = ( state, action ) => {
   } = action;
 
   const newTouched = { ...state.touched };
-  newTouched[field] = touched;
+
+  if ( Array.isArray(field) ) {
+    newTouched[field[0]] = newTouched[field[0]] || [];
+    newTouched[field[0]][field[1]] = touched;
+  }
+  else {
+    newTouched[field] = touched;
+  }
 
   return {
     ...state,
@@ -64,7 +78,14 @@ const setWarning = ( state, action ) => {
   } = action;
 
   const newWarnings = { ...state.warnings };
-  newWarnings[field] = warning;
+
+  if ( Array.isArray(field) ) {
+    newWarnings[field[0]] = newWarnings[field[0]] || [];
+    newWarnings[field[0]][field[1]] = warning;
+  }
+  else {
+    newWarnings[field] = warning;
+  }
 
   return {
     ...state,
@@ -81,7 +102,14 @@ const setError = ( state, action ) => {
   } = action;
 
   const newErrors = { ...state.errors };
-  newErrors[field] = error;
+
+  if ( Array.isArray(field) ) {
+    newErrors[field[0]] = newErrors[field[0]] || [];
+    newErrors[field[0]][field[1]] = error;
+  }
+  else {
+    newErrors[field] = error;
+  }
 
   return {
     ...state,
@@ -98,7 +126,14 @@ const setSuccess = ( state, action ) => {
   } = action;
 
   const newSuccesses = { ...state.successes };
-  newSuccesses[field] = success;
+
+  if ( Array.isArray(field) ) {
+    newSuccesses[field[0]] = newSuccesses[field[0]] || [];
+    newSuccesses[field[0]][field[1]] = success;
+  }
+  else {
+    newSuccesses[field] = success;
+  }
 
   return {
     ...state,

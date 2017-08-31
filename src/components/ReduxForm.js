@@ -6,10 +6,24 @@ import React, { Component } from 'react';
 // Import PropTypes library
 import PropTypes from 'prop-types';
 
-import { createStore } from 'redux';
-import ReducerBuilder from './ReducerBuilder';
 
+import { createStore } from 'redux';
+
+import ReducerBuilder from './ReducerBuilder';
 import * as actions from './actions';
+
+/* ----- Recursive Check to see if form is valid  -----*/
+
+// TODO maybe a better way to do this
+const isFormValid = (errors) => {
+  if ( Array.isArray( errors ) ) {
+    return errors.some( k => isFormValid( k ) );
+  }
+  else if ( errors !== null && typeof errors === 'object') {
+    return Object.keys(errors).some( k => isFormValid( errors[k] ) );
+  }
+  return errors;
+};
 
 /* ---------- Form Component ----------*/
 
@@ -86,8 +100,8 @@ class Form extends Component {
     if ( prevState.submits < this.state.submits ) {
       // Only submit if we have no errors
       const errors = this.state.errors;
-      const invalid = Object.keys(errors).some( k => errors[k]);
 
+      const invalid = isFormValid( errors );
       if ( this.props.onSubmit && !invalid ) {
         this.props.onSubmit( this.state.values );
       }

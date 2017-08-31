@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 // Inport the form input
 import FormField from './FormField';
 
-class TextWrapper extends Component {
+class SelectWrapper extends Component {
 
   render() {
 
@@ -70,7 +70,7 @@ class TextWrapper extends Component {
   }
 }
 
-class Text extends Component {
+class Select extends Component {
 
   render() {
     const {
@@ -82,15 +82,18 @@ class Text extends Component {
 
     return (
       <FormField field={field}>
-        <TextWrapper {...rest} />
+        <SelectWrapper {...rest} />
       </FormField>
     );
   }
 
 }
 
-Text.propTypes = {
-  field: PropTypes.string.isRequired
+Select.propTypes = {
+  field: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
 };
 
-export default Text;
+export default Select;
