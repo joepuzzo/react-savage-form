@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -31,5 +32,11 @@ module.exports = {
         loader: 'url-loader',
       }
     ]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: path.join(__dirname, '../../dev/index.html'), to: path.join(__dirname, '../../build/index.html') },
+      { from: path.join(__dirname, '../../dev/assets'), to: path.join(__dirname, '../../build/assets') },
+    ])
+  ]
 };
