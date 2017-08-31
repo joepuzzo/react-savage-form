@@ -187,7 +187,7 @@ const Group = ({ group }) => {
   );
 };
 
-const FormContent = ({ formApi, aprop }) => {
+const FormContent = ({ formApi, aprop, setProp }) => {
 
   const hidden = !formApi.values.hideform || formApi.values.hideform === 'yes';
 
@@ -228,6 +228,7 @@ const FormContent = ({ formApi, aprop }) => {
           }
           <button type="submit" className="mb-2 btn btn-primary">Submit</button>
         </form>
+        <button type="button" onClick={setProp} key="propbutton" className="mb-2 btn btn-primary">SETPROP</button>
       </div>
       <div className="col-md-10">
         <Data title="values" data={formApi.values} />
@@ -264,19 +265,10 @@ class BigComplexForm extends Component {
       <div>
         <h3>Big Complex Form</h3>
         <Form
-          formDidUpdate={(state) => {
-            console.log('-------------------------------------');
-            console.log('VALUES:', state.values);
-            console.log('ERRORS:', state.errors);
-            console.log('TOUCHE:', state.touched);
-            console.log('SUBMIT:', state.submits);
-          }}
           onSubmit={((values) => { console.log('SUBMIT:', values); })}
           validateError={errorValidator}>
-          <FormContent aprop={this.state.aprop} />
+          <FormContent aprop={this.state.aprop} setProp={this.setProp} />
         </Form>
-        <br />
-        <button type="button" onClick={this.setProp} key="propbutton">SETPROP</button>
       </div>
     );
 

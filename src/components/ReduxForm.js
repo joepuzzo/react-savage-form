@@ -30,8 +30,6 @@ class Form extends Component {
 
     this.state = this.store.getState();
 
-    console.log(this.state);
-
     this.getValue = this.getValue.bind(this);
     this.setValue = this.setValue.bind(this);
     this.getTouched = this.getTouched.bind(this);
@@ -54,6 +52,13 @@ class Form extends Component {
     };
   }
 
+  componentDidMount() {
+    // PreValidate
+    this.store.dispatch(actions.preValidate());
+    // Validate
+    this.store.dispatch(actions.validate());
+  }
+
   componentWillReceiveProps(nextProps) {
     // If we are told we are submitted and we went from true to false ( not undefined to somthing else ) then submit
     if ( nextProps.submitted !== this.props.submitted && nextProps.submitted === true && this.props.submitted === false ) {
@@ -71,12 +76,21 @@ class Form extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if ( this.props.formDidUpdate ) {
       this.props.formDidUpdate( this.state );
     }
     if ( this.props.update ) {
       this.props.update( this.state );
+    }
+    if ( prevState.submits < this.state.submits ) {
+      // Only submit if we have no errors
+      const errors = this.state.errors;
+      const invalid = Object.keys(errors).some( k => errors[k]);
+
+      if ( this.props.onSubmit && !invalid ) {
+        this.props.onSubmit( this.state.values );
+      }
     }
   }
 
