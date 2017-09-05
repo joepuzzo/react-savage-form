@@ -58,7 +58,8 @@ const FormContent = ({ formApi, submittedValues }) => {
         <RadioGroup field="gender">
           <Radios />
         </RadioGroup>
-        <TextArea field="bio" />
+        <label htmlFor="bio">Bio</label>
+        <TextArea field="bio" id="bio" />
         <label htmlFor="authorize" className="mr-2">Authorize</label>
         <Checkbox field="authorize" id="authorize" className="d-inline-block" />
         <label htmlFor="status" className="d-block">Relationship status</label>
@@ -80,6 +81,17 @@ const BasicFormCode = () => {
 
   const code = `
   import { Form, Text, Radio, RadioGroup, Select, Checkbox } from 'react-savage-form';
+
+  const Radios = ({ group }) => {
+    return (
+      <div>
+        <label htmlFor="male" className="mr-2">Male</label>
+        <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
+        <label htmlFor="female" className="mr-2">Female</label>
+        <Radio group={group} value="female" id="female" className="d-inline-block" />
+      </div>
+    );
+  };
 
   const FormContent = ({ formApi }) => {
 
@@ -108,6 +120,7 @@ const BasicFormCode = () => {
           <RadioGroup field="gender">
             <Radios />
           </RadioGroup>
+          <TextArea field="bio" id="bio" />
           <TextArea field="bio" />
           <label htmlFor="authorize" className="mr-2">Authorize</label>
           <Checkbox field="authorize" id="authorize" className="d-inline-block" />

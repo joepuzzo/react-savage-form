@@ -206,7 +206,7 @@ const FormContent = ({ formApi, aprop, setProp }) => {
 
   return (
     <div className="row">
-      <div className="col-md-2">
+      <div className="col-sm-4">
         <form onSubmit={formApi.submitForm} id="form1">
           <Text field="foo" />
           <Text field="bar" />
@@ -243,7 +243,7 @@ const FormContent = ({ formApi, aprop, setProp }) => {
         </form>
         <button type="button" onClick={setProp} key="propbutton" className="mb-2 btn btn-primary">SETPROP</button>
       </div>
-      <div className="col-md-10">
+      <div className="col-sm-8">
         <Data title="values" data={formApi.values} />
         <Data title="errors" data={formApi.errors} />
         <Data title="touched" data={formApi.touched} />
