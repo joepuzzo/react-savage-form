@@ -41,7 +41,7 @@ const errorValidator = (values) => {
     bar: validateField('bar'),
     baz: validateField('baz'),
     nicknames: validateNicknames(),
-    fuck: validateField('fuck'),
+    hey: validateField('hey'),
     a: validateField('a'),
     b: validateField('b'),
     c: validateField('c'),
@@ -213,7 +213,7 @@ const FormContent = ({ formApi, aprop, setProp }) => {
           <Text field="baz" />
           <Text field={["nicknames", 0]} />
           <Text field={["nicknames", 1]} />
-          <Text field="fuck" />
+          <Text field="hey" />
           <Text field="a" />
           <Text field="b" />
           <Text field="c" />

@@ -102,7 +102,12 @@ class Form extends Component {
       const errors = this.state.errors;
 
       const invalid = isFormValid( errors );
+      if ( !invalid ) {
+        // Update submitted
+        this.store.dispatch(actions.submitted());
+      }
       if ( this.props.onSubmit && !invalid ) {
+        // Call the on submit
         this.props.onSubmit( this.state.values );
       }
     }
@@ -177,8 +182,12 @@ class Form extends Component {
       e.preventDefault(e);
     }
 
+    // PreValidate
+    this.store.dispatch(actions.preValidate());
+    // Validate
+    this.store.dispatch(actions.validate());
+    // update submits
     this.store.dispatch(actions.submits());
-    this.store.dispatch(actions.submitted());
   }
 
   render() {

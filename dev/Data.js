@@ -19,7 +19,7 @@ class Data extends Component {
         { title ? <h5 className="d-inline-block mr-3">{`${title}:`}</h5> : null }
         { reference ? <span>(<code >{reference}</code>)</span> : null }
         <pre>
-          <PrismCode className="language-javascript">
+          <PrismCode className="language-json">
             {code}
           </PrismCode>
         </pre>

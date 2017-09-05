@@ -1,6 +1,5 @@
 /* ------------- Imports -------------- */
 import React, { Component } from 'react';
-import ReactDOMServer from 'react-dom/server'
 
 /* ------------- Form  Library Imports -------------- */
 import {
@@ -53,7 +52,7 @@ const FormContent = ({ formApi, submittedValues }) => {
       <form onSubmit={formApi.submitForm} id="form1">
         <label htmlFor="firstName">First name</label>
         <Text field="firstName" id="firstName" />
-        <label htmlFor="lastName">First name</label>
+        <label htmlFor="lastName">Last name</label>
         <Text field="lastName" id="lastName" />
         <RadioGroup field="gender">
           <Radios />
@@ -115,7 +114,7 @@ const BasicFormCode = () => {
         <form onSubmit={formApi.submitForm} id="form1">
           <label htmlFor="firstName">First name</label>
           <Text field="firstName" id="firstName" />
-          <label htmlFor="lastName">First name</label>
+          <label htmlFor="lastName">Last name</label>
           <Text field="lastName" id="lastName" />
           <RadioGroup field="gender">
             <Radios />
