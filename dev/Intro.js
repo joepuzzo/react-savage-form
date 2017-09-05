@@ -245,15 +245,15 @@ class Intro extends Component {
         <h3>Intro</h3>
         <p className="mb-4">
           Say hello to the best react form library you have ever used!
-          <code>react-savage-form</code> is an exstensive, simple, and efficent
+          <code>react-savage-form</code> is an extensive, simple, and efficient
           solution to creating simple to complex forms in react. Out of the box
           you get the ability to grab and manipulate values; set errors,
           warnings, and successes; customize your inputs, and much more!
         </p>
         <h3>Motivation</h3>
         <p className="mb-4">
-          Simplicity and efficency. This form works in IE! and its fast!
-          There are many other libraries that exsist, but they dont function in
+          Simplicity and efficiency. This form works in IE! and its fast!
+          There are many other libraries that exist, but they dont function in
           IE and, can get pretty complex. I must give credit to <a href="https://github.com/tannerlinsley/react-form">react-form</a> as
           this library was the inspiration for building <code>react-savage-form</code>.
         </p>
