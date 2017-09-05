@@ -19,6 +19,10 @@
     "email": "jgpuzzo2@gmail.com",
     "url": "http://joepuzzo.github.io"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/joepuzzo/react-savage-form.git"
+  },
   "license": "ISC",
   "dependencies": {
     "prop-types": "^15.5.10",
