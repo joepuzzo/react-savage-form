@@ -3,19 +3,25 @@ import React, { Component } from 'react';
 
 /* ------------- Form  Library Imports -------------- */
 import BasicForm from './BasicForm';
+import NestedFormExample from './NestedFormExample';
+import FormWithArrays from './FormWithArrays';
 import BigComplexForm from './BigComplexForm';
 import Intro from './Intro';
 
 class Examples extends Component {
   render() {
     return (
-      <div>
+      <div className="mt-4">
         <h1>React Savage Form</h1>
-        <hr />
+        <hr /><br />
         <Intro />
-        <hr />
+        <hr /><br />
         <BasicForm />
-        <hr />
+        <hr /><br />
+        <FormWithArrays />
+        <hr /><br />
+        <NestedFormExample />
+        <hr /><br />
         <BigComplexForm />
       </div>
     );

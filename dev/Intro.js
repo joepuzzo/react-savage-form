@@ -33,6 +33,52 @@ const ExampleForm = ( ) => {
 }
 `;
 
+const formApiCodeExampleWithValidation = `
+import { Form, Text } from 'react-savage-form';
+
+const errorValidator = (values) => {
+  return {
+    hello: !values.hello ||
+           !values.hello.match( /Hello World/ ) ? "Input must contain 'Hello World'" : null
+  };
+};
+
+const warningValidator = (values) => {
+  return {
+    hello: !values.hello ||
+           !values.hello.match( /^Hello World$/ ) ? "Input should equal 'Hello World'" : null
+  };
+};
+
+const successValidator = (values) => {
+  return {
+    hello: values.hello &&
+           values.hello.match( /Hello World/ ) ? "Thanks for entering 'Hello World'!" : null
+  };
+};
+
+const ExampleFormContent = (props) => {
+  return (
+    <form onSubmit={props.formApi.submitForm} id="form1">
+      <label htmlFor="hello">Hello World</label>
+      <Text field="hello" id="hello" />
+      <button type="submit" className="btn btn-primary">Submit</button>
+    </form>
+  );
+}
+
+const ExampleForm = ( ) => {
+  return (
+    <Form
+      validateWarning={warningValidator}
+      validateSuccess={successValidator}
+      validateError={errorValidator}>
+      <ExampleFormContent />
+    </Form>
+  );
+}
+`;
+
 const errorValidator = (values) => {
   return {
     hello: !values.hello || !values.hello.match( /Hello World/ ) ? "Input must contain 'Hello World'" : null
@@ -54,7 +100,7 @@ const successValidator = (values) => {
 
 const ExampleFormContent = (props) => {
   return (
-    <div>
+    <div className="mb-4">
       <form onSubmit={props.formApi.submitForm} id="form1" className="mb-4">
         <label htmlFor="hello">Hello World</label>
         <Text field="hello" id="hello" />
@@ -274,9 +320,9 @@ class Intro extends Component {
             {rawStyles}
           </PrismCode>
         </pre>
-        <hr/>
+        <hr /><br />
         <FormProps />
-        <hr/>
+        <hr /><br />
         <h3>Form Api</h3>
         <p className="mb-4">
           React Savage Form gives you access to the <code>formApi</code> through props.
@@ -291,7 +337,21 @@ class Intro extends Component {
           </PrismCode>
         </pre>
         <h5>Rendered example:</h5>
+        <p>
+          Play around with the Hello World field and see how the api updates
+          in the table! <strong>Hint:</strong> try typing {'"Foo", "Hello World", and "Hello World!!!"'}
+        </p>
         <ExampleForm />
+        <h5>Source code with validation:</h5>
+        <p>
+          The validation occured in the Hello World example above because of the
+          validators that were passed in, see code below.
+        </p>
+        <pre className="mb-4">
+          <PrismCode className="language-jsx">
+            {formApiCodeExampleWithValidation}
+          </PrismCode>
+        </pre>
       </div>
     );
   }

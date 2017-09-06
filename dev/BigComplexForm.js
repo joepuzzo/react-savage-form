@@ -211,8 +211,8 @@ const FormContent = ({ formApi, aprop, setProp }) => {
           <Text field="foo" />
           <Text field="bar" />
           <Text field="baz" />
-          <Text field={["nicknames", 0]} />
-          <Text field={["nicknames", 1]} />
+          <Text field={['nicknames', 0]} />
+          <Text field={['nicknames', 1]} />
           <Text field="hey" />
           <Text field="a" />
           <Text field="b" />
@@ -277,6 +277,9 @@ class BigComplexForm extends Component {
     return (
       <div>
         <h3>Big Complex Form</h3>
+        <br />
+        <h3 style={{ backgroundColor: 'red' }}>Docs for big complex form are a work in progress</h3>
+        <br />
         <Form
           onSubmit={((values) => { console.log('SUBMIT:', values); })}
           validateError={errorValidator}>

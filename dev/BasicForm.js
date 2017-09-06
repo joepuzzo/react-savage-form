@@ -70,7 +70,7 @@ const FormContent = ({ formApi, submittedValues }) => {
       <Data title="Touched" reference="formApi.touched" data={formApi.touched} />
       <Data title="Submission attempts" reference="formApi.submits" data={formApi.submits} />
       <Data title="Submitted" reference="formApi.submitted" data={formApi.submitted} />
-      <Data title="Submitted values" reference="onSubmit={ (submittedValues) => {} }" data={submittedValues} />
+      <Data title="Submitted values" reference="onSubmit={submittedValues => this.setState( { submittedValues } )}" data={submittedValues} />
     </div>
   );
 
@@ -125,7 +125,7 @@ const BasicFormCode = () => {
           <Checkbox field="authorize" id="authorize" className="d-inline-block" />
           <label htmlFor="status" className="d-block">Relationship status</label>
           <Select field="status" id="status" options={statusOptions} />
-          <button type="submit">Submit</button>
+          <button type="submit" className="mb-4 btn btn-primary">Submit</button>
         </form>
       </div>
     );
@@ -173,6 +173,7 @@ class BasicForm extends Component {
     return (
       <div>
         <h2 className="mb-4">Basic Form</h2>
+        <p>Here is an example of a basic form that has various input types.</p>
         <Form
           onSubmit={submittedValues => this.setState( { submittedValues } )}>
           <FormContent submittedValues={this.state.submittedValues} />
