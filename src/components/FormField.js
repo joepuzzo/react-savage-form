@@ -65,6 +65,9 @@ class FormField extends Component {
       setValue: ( value ) => {
         formApi.setValue( field, value );
       },
+      format: ( format ) => {
+        formApi.format( field, format );
+      },
       setTouched: ( touched ) => {
         formApi.setTouched( field, touched );
       },

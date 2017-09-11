@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // Inport the form input
-import FormField from './FormField';
+import FormField from '../FormField';
 
 class TextWrapper extends Component {
 
@@ -25,12 +25,13 @@ class TextWrapper extends Component {
     const {
       getValue,
       setValue,
-      setTouched
+      setTouched,
+      format
     } = fieldApi;
 
     return (
       <input
-        value={getValue('')}
+        value={getValue()}
         onInput={( e ) => {
           setValue(e.target.value);
           if ( fieldDidUpdate ) {
@@ -41,7 +42,9 @@ class TextWrapper extends Component {
           }
         }
         }
-        onBlur={() => setTouched()}
+        onBlur={() => {
+          setTouched();
+        }}
         {...rest} />
     );
   }

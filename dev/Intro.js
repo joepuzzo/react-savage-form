@@ -192,7 +192,7 @@ const FormApi = ({ formApi }) => {
             <th scope="row">submitted</th>
             <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.submitted)}</PrismCode></pre></td>
             <td>
-              If form was successfully submitted. ( only gets set once )
+              If form was successfully submitted. ( only gets set once and only if form is NOT in error state )
             </td>
           </tr>
         </tbody>

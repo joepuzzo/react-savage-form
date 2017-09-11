@@ -6,7 +6,7 @@ import {
   SET_TOUCHED,
   PRE_VALIDATE,
   VALIDATE,
-  SUBMIT,
+  FORMAT,
   SUBMITS,
   SUBMITTED,
   RESET
@@ -37,6 +37,29 @@ const setValue = ( state, action ) => {
   }
   else {
     newValues[field] = value;
+  }
+
+  return {
+    ...state,
+    values: newValues
+  };
+
+};
+
+const format = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const newValues = { ...state.values };
+
+  if ( Array.isArray(field) ) {
+    newValues[field[0]] = newValues[field[0]] || [];
+    newValues[field[0]][field[1]] = action.format( newValues[field[0]][field[1]] );
+  }
+  else {
+    newValues[field] = action.format( newValues[field] );
   }
 
   return {
@@ -215,6 +238,8 @@ class ReducerBuilder {
       switch ( action.type ) {
         case SET_VALUE:
           return setValue( state, action );
+        case FORMAT:
+          return format( state, action );
         case SET_ERROR:
           return setError( state, action );
         case SET_WARNING:

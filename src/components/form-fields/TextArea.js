@@ -7,18 +7,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // Inport the form input
-import FormField from './FormField';
+import FormField from '../FormField';
 
-class CheckboxWrapper extends Component {
+class TextAreaWrapper extends Component {
 
   render() {
 
     // console.log('RENDER');
 
     const {
-      fieldDidUpdate,
-      fieldApi,
       onChange,
+      fieldApi,
+      fieldDidUpdate,
+      onInput,
       ...rest
     } = this.props;
 
@@ -29,25 +30,25 @@ class CheckboxWrapper extends Component {
     } = fieldApi;
 
     return (
-      <input
-        checked={getValue()}
-        onBlur={() => setTouched()}
-        onChange={(e) => {
-          setValue(e.target.checked);
-          if (onChange) {
-            onChange(e);
-          }
+      <textarea
+        value={getValue('')}
+        onInput={( e ) => {
+          setValue(e.target.value);
           if ( fieldDidUpdate ) {
-            fieldDidUpdate( e.target.checked );
+            fieldDidUpdate(e.target.value);
+          }
+          if ( onInput ) {
+            onInput( e );
           }
         }}
-        type="checkbox"
+        onBlur={() => setTouched()}
         {...rest} />
     );
+
   }
 }
 
-class Checkbox extends Component {
+class TextArea extends Component {
 
   render() {
     const {
@@ -57,15 +58,18 @@ class Checkbox extends Component {
 
     return (
       <FormField field={field}>
-        <CheckboxWrapper {...rest} />
+        <TextAreaWrapper {...rest} />
       </FormField>
     );
   }
 
 }
 
-Checkbox.propTypes = {
-  field: PropTypes.string.isRequired
+TextArea.propTypes = {
+  field: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
 };
 
-export default Checkbox;
+export default TextArea;

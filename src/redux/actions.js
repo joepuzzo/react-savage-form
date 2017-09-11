@@ -3,6 +3,11 @@ export function setValue( field, value ) {
   return { type: SET_VALUE, field, value };
 }
 
+export const FORMAT = 'FORMAT';
+export function format( field, fmt ) {
+  return { type: FORMAT, field, format: fmt };
+}
+
 export const SET_ERROR = 'SET_ERROR';
 export function setError( field, error ) {
   return { type: SET_ERROR, field, error };

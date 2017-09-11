@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 
 import { createStore } from 'redux';
 
-import ReducerBuilder from './ReducerBuilder';
-import * as actions from './actions';
+import ReducerBuilder from '../redux/ReducerBuilder';
+import * as actions from '../redux/actions';
 
 /* ----- Recursive Check to see if form is valid  -----*/
 
@@ -49,6 +49,7 @@ class Form extends Component {
     this.getTouched = this.getTouched.bind(this);
     this.setTouched = this.setTouched.bind(this);
     this.setError = this.setError.bind(this);
+    this.format = this.format.bind(this);
     this.setWarning = this.setWarning.bind(this);
     this.setSuccess = this.setSuccess.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -136,6 +137,7 @@ class Form extends Component {
       setError: this.setError,
       setWarning: this.setWarning,
       setSuccess: this.setSuccess,
+      format: this.format,
       submitted: this.state.submitted,
       submits: this.state.submits,
       reset: this.reset
@@ -170,6 +172,12 @@ class Form extends Component {
 
   getValue( field ) {
     return this.state.values[field];
+  }
+
+  format( field, format ) {
+    this.store.dispatch(actions.format(field, format));
+    this.store.dispatch(actions.preValidate());
+    this.store.dispatch(actions.validate());
   }
 
   reset( field ) {

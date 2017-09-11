@@ -1,3 +1,14 @@
+/*
+ * D E P R I C A T E D  D E P R I C A T E D   D E P R I C A T E D   D E P R I C A T E D
+ *
+ * Note!! This file is depricated and no longer used as part of this form
+ * library. I keep it around as a reminder of how complex things get without
+ * redux. Feel free to compare and contrast Form and ReduxForm to see how
+ * much simpler they are.
+ *
+ * D E P R I C A T E D   D E P R I C A T E D   D E P R I C A T E D   D E P R I C A T E D
+ */
+
 /* ---------- Imports ---------- */
 
 // Import React
