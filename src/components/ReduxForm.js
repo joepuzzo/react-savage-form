@@ -210,49 +210,6 @@ class Form extends Component {
 
 }
 
-class FormWrapper extends Component {
-
-  // getChildContext() {
-  //   return {
-  //     formApi: this.props.formApi,
-  //   };
-  // }
-
-  shouldComponentUpdate(nextProps) {
-
-    // Check child props for changes so we know to re-render
-    const props1 = { ...this.props.children.props };
-    const props2 = { ...nextProps.children.props };
-
-    // Remove children so we can do shallow compare
-    props1.children = null;
-    props2.children = null;
-
-    const shouldUpdate = JSON.stringify(nextProps.formApi.values) !== JSON.stringify(this.props.formApi.values) ||
-      JSON.stringify(nextProps.formApi.errors) !== JSON.stringify(this.props.formApi.errors) ||
-      JSON.stringify(nextProps.formApi.warnings) !== JSON.stringify(this.props.formApi.warnings) ||
-      JSON.stringify(nextProps.formApi.successes) !== JSON.stringify(this.props.formApi.successes) ||
-      JSON.stringify(nextProps.formApi.touched) !== JSON.stringify(this.props.formApi.touched) ||
-      nextProps.formApi.submits !== this.props.formApi.submits ||
-      JSON.stringify( props1 ) !== JSON.stringify( props2 ) ||
-      nextProps.formApi.submitted !== this.props.formApi.submitted;
-    // console.log("SHOULD UPDATE", shouldUpdate);
-    return shouldUpdate || false;
-  }
-
-  render() {
-
-    const {
-      children,
-      formApi
-    } = this.props;
-
-    return React.cloneElement( children, { formApi } );
-
-  }
-
-}
-
 Form.childContextTypes = {
   formApi: PropTypes.object
 };
