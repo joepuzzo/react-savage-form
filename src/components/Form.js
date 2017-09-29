@@ -37,6 +37,7 @@ class Form extends Component {
     this.getTouched = this.getTouched.bind(this);
     this.setTouched = this.setTouched.bind(this);
     this.setError = this.setError.bind(this);
+    this.getError = this.getError.bind(this);
     this.setWarning = this.setWarning.bind(this);
     this.setSuccess = this.setSuccess.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -162,6 +163,7 @@ class Form extends Component {
     return this.state.values[field];
   }
 
+
   setTouched( field, touch = true ) {
 
     this.setState((prevState) => {
@@ -194,7 +196,11 @@ class Form extends Component {
     });
   }
 
-  setWarning( field, warn ) {
+  getError( field ) {
+      return this.state.errors[field];
+  }
+
+    setWarning( field, warn ) {
 
     this.setState((prevState) => {
       // Pull off the warnings
