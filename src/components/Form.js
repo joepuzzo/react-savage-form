@@ -39,6 +39,7 @@ class Form extends Component {
     this.setError = this.setError.bind(this);
     this.getError = this.getError.bind(this);
     this.setWarning = this.setWarning.bind(this);
+    this.getWarning = this.getWarning.bind(this);
     this.setSuccess = this.setSuccess.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.reset = this.reset.bind(this);
@@ -215,7 +216,11 @@ class Form extends Component {
 
   }
 
-  setSuccess( field, succ ) {
+    getWarning( field ) {
+        return this.state.warnings[field];
+    }
+
+    setSuccess( field, succ ) {
 
     this.setState((prevState) => {
       // Pull off the successes

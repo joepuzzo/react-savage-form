@@ -82,6 +82,7 @@ class FormField extends Component {
       },
       getValue: ( ) => formApi.getValue( field ),
       getError: ( ) => formApi.getError( field ),
+      getWarning: ( ) => formApi.getWarning( field ),
       getTouched: ( ) => formApi.getTouched( field ),
       reset: ( ) => formApi.reset( field ),
       submitted: formApi.submitted,
