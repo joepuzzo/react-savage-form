@@ -1,5 +1,7 @@
 # A savage react form library
 
+[![Build Status](https://travis-ci.org/joepuzzo/react-savage-form.svg?branch=master)](https://travis-ci.org/joepuzzo/react-savage-form)
+
 # Intro
 Say hello to the best react form library you have ever used! `react-savage-form` is an extensive, simple, and efficient solution to creating simple to complex forms in react. Out of the box you get the ability to grab and manipulate values; set errors, warnings, and successes; customize your inputs, and much more!
 
