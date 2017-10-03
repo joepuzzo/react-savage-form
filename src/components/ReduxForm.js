@@ -49,6 +49,8 @@ class Form extends Component {
     this.getTouched = this.getTouched.bind(this);
     this.setTouched = this.setTouched.bind(this);
     this.setError = this.setError.bind(this);
+    this.getError = this.getError.bind(this);
+    this.getWarning = this.getWarning.bind(this);
     this.format = this.format.bind(this);
     this.setWarning = this.setWarning.bind(this);
     this.setSuccess = this.setSuccess.bind(this);
@@ -166,8 +168,16 @@ class Form extends Component {
     this.store.dispatch(actions.setError(field, error));
   }
 
+  getError( field ) {
+      return this.state.errors[field];
+  }
+
   setWarning( field, warning ) {
     this.store.dispatch(actions.setWarning(field, warning));
+  }
+
+  getWarning( field ) {
+      return this.state.warnings[field];
   }
 
   setSuccess( field, success ) {
