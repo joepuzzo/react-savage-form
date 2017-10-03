@@ -38,7 +38,7 @@ const NestedFormWrapper = (props) => {
       const invalid = errors ? Object.keys(errors).some( k => errors[k]) : false;
       const success = successes ? Object.keys(successes).some( k => successes[k]) : false;
       const warning = warnings ? Object.keys(warnings).some( k => warnings[k]) : false;
-
+      
       setValue( values );
       setTouched( touched );
       setError( invalid ? errors : null );

@@ -20,33 +20,6 @@ class FormField extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-
-    // Grab needed values
-    const field = this.props.field;
-    const currentApi = this.context.formApi;
-    const nextApi = nextContext.formApi;
-
-    // Check child props for changes so we know to re-render
-    const props1 = { ...this.props.children.props };
-    const props2 = { ...nextProps.children.props };
-
-    // Remove children so we can do shallow compare
-    props1.children = null;
-    props2.children = null;
-
-    const shouldUpdate = nextApi.values[field] !== currentApi.values[field] ||
-           nextApi.touched[field] !== currentApi.touched[field] ||
-           nextApi.errors[field] !== currentApi.errors[field] ||
-           nextApi.warnings[field] !== currentApi.warnings[field] ||
-           nextApi.successes[field] !== currentApi.successes[field] ||
-           JSON.stringify( props1 ) !== JSON.stringify( props2 ) ||
-           nextContext.formApi.submits !== this.context.formApi.submits;
-
-    return shouldUpdate || false;
-  }
-
-
   render() {
 
     // console.log("RENDER FIELD", this.props.field);
@@ -82,6 +55,9 @@ class FormField extends Component {
       },
       getValue: ( ) => formApi.getValue( field ),
       getTouched: ( ) => formApi.getTouched( field ),
+      getError: ( ) => formApi.getError( field ),
+      getWarning: ( ) => formApi.getWarning( field ),
+      getSuccess: ( ) => formApi.getSuccess( field ),
       reset: ( ) => formApi.reset( field ),
       submitted: formApi.submitted,
       submits: formApi.submits

@@ -54,6 +54,9 @@ class Form extends Component {
     this.setSuccess = this.setSuccess.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.reset = this.reset.bind(this);
+    this.getError = this.getError.bind(this);
+    this.getWarning = this.getWarning.bind(this);
+    this.getSuccess = this.getSuccess.bind(this);
 
     this.store.subscribe(() =>
       this.setState( this.store.getState() )
@@ -96,7 +99,9 @@ class Form extends Component {
       this.props.formDidUpdate( this.state );
     }
     if ( this.props.update ) {
-      this.props.update( this.state );
+      if( JSON.stringify( prevState ) !== JSON.stringify( this.state )  ){
+        this.props.update( this.state );
+      }
     }
     if ( prevState.submits < this.state.submits ) {
       // Only submit if we have no errors
@@ -134,6 +139,9 @@ class Form extends Component {
       getValue: this.getValue,
       setTouched: this.setTouched,
       getTouched: this.getTouched,
+      getWarning: this.getWarning,
+      getError: this.getError,
+      getSuccess: this.getSuccess,
       setError: this.setError,
       setWarning: this.setWarning,
       setSuccess: this.setSuccess,
@@ -167,11 +175,49 @@ class Form extends Component {
   }
 
   getTouched( field ) {
-    return this.state.touched[field];
+    if ( Array.isArray(field) ) {
+      return this.state.touched[field[0]] ? this.state.touched[field[0]][field[1]] : undefined;
+  	}
+  	else {
+   	  return this.state.touched[field];
+  	}
+
   }
 
   getValue( field ) {
-    return this.state.values[field];
+	if ( Array.isArray(field) ) {
+      return this.state.values[field[0]] ? this.state.values[field[0]][field[1]] : undefined;
+  	}
+  	else {
+   	  return this.state.values[field];
+  	}
+  }
+
+  getError( field ) {
+	if ( Array.isArray(field) ) {
+      return this.state.errors[field[0]] ? this.state.errors[field[0]][field[1]] : undefined;
+  	}
+  	else {
+   	  return this.state.errors[field];
+  	}
+  }
+
+  getWarning( field ) {
+	if ( Array.isArray(field) ) {
+      return this.state.warnings[field[0]] ? this.state.warnings[field[0]][field[1]] : undefined;
+  	}
+  	else {
+   	  return this.state.warnings[field];
+  	}
+  }
+
+  getSuccess( field ) {
+	if ( Array.isArray(field) ) {
+      return this.state.successes[field[0]] ? this.state.successes[field[0]][field[1]] : undefined;
+  	}
+  	else {
+   	  return this.state.successes[field];
+  	}
   }
 
   format( field, format ) {

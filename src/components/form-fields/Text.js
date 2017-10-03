@@ -13,7 +13,7 @@ class TextWrapper extends Component {
 
   render() {
 
-    // console.log('RENDER');
+    //console.log('RENDER');
 
     const {
       fieldDidUpdate,
@@ -59,6 +59,7 @@ class Text extends Component {
     } = this.props;
 
     //console.log("REST", rest);
+    //console.log("RENDER1");
 
     return (
       <FormField field={field}>
