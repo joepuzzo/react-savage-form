@@ -1,6 +1,6 @@
 {
   "name": "react-savage-form",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "A non shitty react form lib",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "react-redux",
     "redux-form",
     "form",
-		"react-form"
+    "react-form"
   ],
   "repository": {
     "type": "git",
