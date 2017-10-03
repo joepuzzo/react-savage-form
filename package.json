@@ -17,6 +17,15 @@
     "email": "jgpuzzo2@gmail.com",
     "url": "http://joepuzzo.github.io"
   },
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "react-redux",
+    "redux-form",
+    "form",
+		"react-form"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/joepuzzo/react-savage-form.git"
