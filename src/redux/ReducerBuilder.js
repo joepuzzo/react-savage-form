@@ -29,7 +29,7 @@ const setValue = ( state, action ) => {
     value
   } = action;
 
-  const newValues = { ...state.values };
+  const newValues = JSON.parse(JSON.stringify(state.values));
 
   if ( Array.isArray(field) ) {
     newValues[field[0]] = newValues[field[0]] || [];
@@ -76,7 +76,7 @@ const setTouched = ( state, action ) => {
     touched
   } = action;
 
-  const newTouched = { ...state.touched };
+  const newTouched = JSON.parse(JSON.stringify(state.touched));
 
   if ( Array.isArray(field) ) {
     newTouched[field[0]] = newTouched[field[0]] || [];
@@ -100,7 +100,7 @@ const setWarning = ( state, action ) => {
     warning
   } = action;
 
-  const newWarnings = { ...state.warnings };
+  const newWarnings = JSON.parse(JSON.stringify(state.warnings));
 
   if ( Array.isArray(field) ) {
     newWarnings[field[0]] = newWarnings[field[0]] || [];
@@ -124,7 +124,7 @@ const setError = ( state, action ) => {
     error
   } = action;
 
-  const newErrors = { ...state.errors };
+  const newErrors = JSON.parse(JSON.stringify(state.errors));
 
   if ( Array.isArray(field) ) {
     newErrors[field[0]] = newErrors[field[0]] || [];
@@ -148,7 +148,7 @@ const setSuccess = ( state, action ) => {
     success
   } = action;
 
-  const newSuccesses = { ...state.successes };
+  const newSuccesses = JSON.parse(JSON.stringify(state.successes));
 
   if ( Array.isArray(field) ) {
     newSuccesses[field[0]] = newSuccesses[field[0]] || [];
