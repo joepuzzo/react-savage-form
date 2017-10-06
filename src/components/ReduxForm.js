@@ -232,16 +232,28 @@ class Form extends Component {
 
   submitForm( e ) {
 
-    if ( e && e.preventDefault ) {
-      e.preventDefault(e);
-    }
-
     // PreValidate
     this.store.dispatch(actions.preValidate());
     // Validate
     this.store.dispatch(actions.validate());
     // update submits
     this.store.dispatch(actions.submits());
+
+
+    // We prevent default, by default, unless override is passed
+    if ( e && e.preventDefault && !this.props.dontPreventDefault ) {
+      e.preventDefault(e);
+    }
+
+    // We need to prevent default if override is passed and form is invalid
+    if ( this.props.dontPreventDefault ) {
+      const invalid = isFormValid( this.state.errors );
+      console.log("INVALID", invalid);
+      if ( invalid && e && e.preventDefault ) {
+        e.preventDefault(e);
+      }
+    }
+
   }
 
   render() {

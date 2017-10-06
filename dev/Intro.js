@@ -208,7 +208,7 @@ const FormProps = () => {
       <table className="table" style={{ tableLayout: 'fixed' }}>
         <thead className="thead-inverse">
           <tr>
-            <th style={{ width: '150px' }}>Name</th>
+            <th style={{ width: '180px' }}>Name</th>
             <th style={{ width: '100px' }}>Type</th>
             <th style={{ width: '100px' }}>Required</th>
             <th>Description</th>
@@ -275,6 +275,19 @@ const FormProps = () => {
               object where the key is the field name, and the value is an success
               message or null<br />
               <pre><PrismCode className="language-jsx">validateSuccess( values ) => {'{ firstName: null, lastName: "Nice name!"}'}</PrismCode></pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>dontPreventDefault</code></th>
+            <td><pre>bool</pre></td>
+            <td>no</td>
+            <td>
+              Pass this in if you want to prevent the form submission from
+               "preventingDefault". You would, for example, use this when you
+               want to use a good old form submission using action="/foo.php"
+               on your form. Note: if you are using form validators and the
+               form has errors, i.e is in error state, then it will still prevent
+               default, regardless of this prop.
             </td>
           </tr>
         </tbody>
