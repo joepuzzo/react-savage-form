@@ -7,6 +7,7 @@ import NestedFormExample from './NestedFormExample';
 import FormWithArrays from './FormWithArrays';
 import BigComplexForm from './BigComplexForm';
 import Intro from './Intro';
+import CustomInputs from './CustomInputs';
 
 class Examples extends Component {
   render() {
@@ -14,7 +15,7 @@ class Examples extends Component {
       <div className="mt-4">
         <h1>React Savage Form</h1>
         <hr /><br />
-        <Intro /> 
+        <Intro />
         <hr /><br />
         <BasicForm />
         <hr /><br />
@@ -22,7 +23,9 @@ class Examples extends Component {
         <hr /><br />
         <NestedFormExample />
         <hr /><br />
-        <BigComplexForm /> 
+        <CustomInputs />
+        <hr /><br />
+        <BigComplexForm />
       </div>
     );
   }

@@ -129,7 +129,7 @@ const NestedFormCode = () => {
   };
 
 
-  class FormWithArrays extends Component {
+  class NestedFormExample extends Component {
 
     constructor( props ) {
       super( props );
