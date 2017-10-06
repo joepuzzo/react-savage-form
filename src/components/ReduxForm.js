@@ -248,7 +248,6 @@ class Form extends Component {
     // We need to prevent default if override is passed and form is invalid
     if ( this.props.dontPreventDefault ) {
       const invalid = isFormValid( this.state.errors );
-      console.log("INVALID", invalid);
       if ( invalid && e && e.preventDefault ) {
         e.preventDefault(e);
       }
