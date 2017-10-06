@@ -1,7 +1,7 @@
 {
   "name": "react-savage-form",
   "version": "1.0.32",
-  "description": "A non shitty react form lib",
+  "description": "A savage react form lib",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha-webpack --opts test/mocha-webpack.opts",
