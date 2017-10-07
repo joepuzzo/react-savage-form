@@ -99,7 +99,7 @@ class Form extends Component {
       this.props.formDidUpdate( this.state );
     }
     if ( this.props.update ) {
-      if( JSON.stringify( prevState ) !== JSON.stringify( this.state )  ){
+      if ( JSON.stringify( prevState ) !== JSON.stringify( this.state )) {
         this.props.update( this.state );
       }
     }
@@ -177,47 +177,36 @@ class Form extends Component {
   getTouched( field ) {
     if ( Array.isArray(field) ) {
       return this.state.touched[field[0]] ? this.state.touched[field[0]][field[1]] : undefined;
-  	}
-  	else {
-   	  return this.state.touched[field];
-  	}
-
+    }
+    return this.state.touched[field];
   }
 
   getValue( field ) {
-	if ( Array.isArray(field) ) {
+    if ( Array.isArray(field) ) {
       return this.state.values[field[0]] ? this.state.values[field[0]][field[1]] : undefined;
-  	}
-  	else {
-   	  return this.state.values[field];
-  	}
+    }
+    return this.state.values[field];
   }
 
   getError( field ) {
-	if ( Array.isArray(field) ) {
+    if ( Array.isArray(field) ) {
       return this.state.errors[field[0]] ? this.state.errors[field[0]][field[1]] : undefined;
-  	}
-  	else {
-   	  return this.state.errors[field];
-  	}
+    }
+    return this.state.errors[field];
   }
 
   getWarning( field ) {
-	if ( Array.isArray(field) ) {
+    if ( Array.isArray(field) ) {
       return this.state.warnings[field[0]] ? this.state.warnings[field[0]][field[1]] : undefined;
-  	}
-  	else {
-   	  return this.state.warnings[field];
-  	}
+    }
+    return this.state.warnings[field];
   }
 
   getSuccess( field ) {
-	if ( Array.isArray(field) ) {
+    if ( Array.isArray(field) ) {
       return this.state.successes[field[0]] ? this.state.successes[field[0]][field[1]] : undefined;
-  	}
-  	else {
-   	  return this.state.successes[field];
-  	}
+    }
+    return this.state.successes[field];
   }
 
   format( field, format ) {
