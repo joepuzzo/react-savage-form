@@ -98,6 +98,16 @@ const successValidator = (values) => {
   };
 };
 
+// const sleep = ms => new Promise(resolve => setTimeout(() => {
+//   resolve({ error: 'foobar' });
+// }, ms));
+//
+// const asyncValidators = {
+//   hello: async () => {
+//     return await sleep(2000);
+//   }
+// };
+
 const ExampleFormContent = (props) => {
   return (
     <div className="mb-4">
@@ -115,6 +125,7 @@ const ExampleFormContent = (props) => {
 const ExampleForm = ( ) => {
   return (
     <Form
+      //asyncValidators={asyncValidators}
       validateWarning={warningValidator}
       validateSuccess={successValidator}
       validateError={errorValidator}>

@@ -9,7 +9,11 @@ import {
   FORMAT,
   SUBMITS,
   SUBMITTED,
-  RESET
+  RESET,
+  VALIDATING_FIELD,
+  DONE_VALIDATING_FIELD,
+  VALIDATION_FAILURE,
+  VALIDATION_SUCCESS
 } from './actions';
 
 const INITIAL_STATE = {
@@ -18,6 +22,10 @@ const INITIAL_STATE = {
   errors: {},
   warnings: {},
   successes: {},
+  validating: {},
+  validationFailed: {},
+  validationFailures: 0,
+  asyncValidations: 0,
   submitted: false,
   submits: 0
 };
@@ -224,6 +232,102 @@ const reset = ( state, action ) => {
   };
 };
 
+const validatingField = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const validating = JSON.parse(JSON.stringify(state.validating));
+
+  if ( Array.isArray(field) ) {
+    validating[field[0]] = validating[field[0]] || [];
+    validating[field[0]][field[1]] = true;
+  }
+  else {
+    validating[field] = true;
+  }
+
+  return {
+    ...state,
+    asyncValidations: state.asyncValidations + 1,
+    validating
+  };
+
+};
+
+const doneValidatingField = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const validating = JSON.parse(JSON.stringify(state.validating));
+
+  if ( Array.isArray(field) ) {
+    validating[field[0]] = validating[field[0]] || [];
+    validating[field[0]][field[1]] = false;
+  }
+  else {
+    validating[field] = false;
+  }
+
+  return {
+    ...state,
+    asyncValidations: state.asyncValidations - 1,
+    validating
+  };
+
+};
+
+const validationFailure = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const validationFailed = JSON.parse(JSON.stringify(state.validationFailed));
+
+  if ( Array.isArray(field) ) {
+    validationFailed[field[0]] = validationFailed[field[0]] || [];
+    validationFailed[field[0]][field[1]] = true;
+  }
+  else {
+    validationFailed[field] = true;
+  }
+
+  return {
+    ...state,
+    validationFailures: state.validationFailures + 1,
+    validationFailed
+  };
+
+};
+
+const validationSuccess = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const validationFailed = JSON.parse(JSON.stringify(state.validationFailed));
+
+  if ( Array.isArray(field) ) {
+    validationFailed[field[0]] = validationFailed[field[0]] || [];
+    validationFailed[field[0]][field[1]] = false;
+  }
+  else {
+    validationFailed[field] = false;
+  }
+
+  return {
+    ...state,
+    validationFailures: state.validationFailures - 1,
+    validationFailed
+  };
+
+};
+
 class ReducerBuilder {
 
   static build( properties = {} ) {
@@ -258,6 +362,14 @@ class ReducerBuilder {
           return submits( state, action );
         case RESET:
           return reset( state, action );
+        case VALIDATION_FAILURE:
+          return validationFailure( state, action );
+        case VALIDATION_SUCCESS:
+          return validationSuccess( state, action );
+        case DONE_VALIDATING_FIELD:
+          return doneValidatingField( state, action );
+        case VALIDATING_FIELD:
+          return validatingField( state, action );
         default:
           return state;
       }

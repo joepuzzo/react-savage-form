@@ -27,7 +27,11 @@ describe('ReducerBuilder', () => {
         warnings: {},
         successes: {},
         submitted: false,
-        submits: 0
+        submits: 0,
+        validating: {},
+        validationFailed: {},
+        validationFailures: 0,
+        asyncValidations: 0
       };
       return Object.assign({}, defaultState, state)
     };

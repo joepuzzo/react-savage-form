@@ -6,8 +6,9 @@ import React, { Component } from 'react';
 // Import PropTypes library
 import PropTypes from 'prop-types';
 
-
-import { createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger'
 
 import ReducerBuilder from '../redux/ReducerBuilder';
 import * as actions from '../redux/actions';
@@ -40,7 +41,13 @@ class Form extends Component {
       preValidate
     } = props;
 
-    this.store = createStore(ReducerBuilder.build( { validateError, validateWarning, validateSuccess, preValidate } ));
+    this.store = createStore(
+      ReducerBuilder.build( { validateError, validateWarning, validateSuccess, preValidate } ),
+      applyMiddleware(
+        thunkMiddleware, // lets us dispatch() functions
+        // createLogger() // neat middleware that logs actions
+      )
+    );
 
     this.state = this.store.getState();
 
@@ -160,6 +167,7 @@ class Form extends Component {
 
   setTouched( field, touch = true ) {
     this.store.dispatch(actions.setTouched(field, touch));
+    this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
   }
 
   setError( field, error ) {
@@ -249,6 +257,10 @@ class Form extends Component {
     const {
       children
     } = this.props;
+
+    if ( typeof children === 'function' ) {
+      return children(this.api);
+    }
 
     return React.cloneElement(children, { formApi: this.api } );
 
