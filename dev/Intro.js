@@ -98,16 +98,6 @@ const successValidator = (values) => {
   };
 };
 
-// const sleep = ms => new Promise(resolve => setTimeout(() => {
-//   resolve({ error: 'foobar' });
-// }, ms));
-//
-// const asyncValidators = {
-//   hello: async () => {
-//     return await sleep(2000);
-//   }
-// };
-
 const ExampleFormContent = (props) => {
   return (
     <div className="mb-4">
@@ -125,7 +115,6 @@ const ExampleFormContent = (props) => {
 const ExampleForm = ( ) => {
   return (
     <Form
-      //asyncValidators={asyncValidators}
       validateWarning={warningValidator}
       validateSuccess={successValidator}
       validateError={errorValidator}>
@@ -206,6 +195,42 @@ const FormApi = ({ formApi }) => {
               If form was successfully submitted. ( only gets set once and only if form is NOT in error state )
             </td>
           </tr>
+          <tr>
+            <th scope="row">asyncValidations</th>
+            <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.asyncValidations)}</PrismCode></pre></td>
+            <td>
+              The number of asyncronous validations currently occuring.
+              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">validating</th>
+            <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.validating)}</PrismCode></pre></td>
+            <td>
+              Key value pair where key is the form <code>field</code>, and value
+              is a bool. Value is true when that field is activley validating, and falsey otherwise.
+              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">validationFailures</th>
+            <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.validationFailures)}</PrismCode></pre></td>
+            <td>
+              The number of asyncronous validation failures that have occured. This value will get
+              incimented each time an asyncronous validation fails, and decrimented if it succeeds.
+              Note, it will NOT get incrimented twice for the same field.
+              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">validationFailed</th>
+            <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.validationFailed)}</PrismCode></pre></td>
+            <td>
+              Key value pair where key is the form <code>field</code> and value
+              is a bool. Value is true when that fields most recent async validation had a failure, and falsey otherwise.
+              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -282,10 +307,25 @@ const FormProps = () => {
             <td>no</td>
             <td>
               Function that gets called when form performs validation.
-              Function accepts the values as a parameter and must return successes
+              Function accepts the values and current errors as a parameters, and must return successes
               object where the key is the field name, and the value is an success
               message or null<br />
-              <pre><PrismCode className="language-jsx">validateSuccess( values ) => {'{ firstName: null, lastName: "Nice name!"}'}</PrismCode></pre>
+              <pre><PrismCode className="language-jsx">validateSuccess( values, errors ) => {'{ firstName: null, lastName: "Nice name!"}'}</PrismCode></pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>asyncValidators</code></th>
+            <td><pre>obj</pre></td>
+            <td>no</td>
+            <td>
+              An object where the key is the field name, and the value is an asyncronous function.
+              Each function accepts the value as a parameter, and must return a validation object,
+              where the keys are one of ['error', 'warning', 'success'], and the value is a message or null.
+              The function will get called when you tab out of the field for the associated function.
+              If you do not want to overwrite the error, warning, or success values that were set by your syncronous validators,
+              simply dont pass that parameter in the object you return.
+              <br />
+              <pre><PrismCode className="language-jsx">{'{ username: async () => { error: "Username already taken :(" } }'}</PrismCode></pre>
             </td>
           </tr>
           <tr>

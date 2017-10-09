@@ -13,10 +13,10 @@ class FormField extends Component {
   // We want to set touched to true when the form was submitted ( not for nested forms! )
   componentWillReceiveProps(nextProps, nextContext) {
     if ( nextContext.formApi.submitted !== this.context.formApi.submitted && !this.props.nestedForm ) {
-      this.context.formApi.setTouched( this.props.field );
+      this.context.formApi.setTouched( this.props.field, true, false );
     }
     if ( nextContext.formApi.submits !== this.context.formApi.submits && !this.props.nestedForm ) {
-      this.context.formApi.setTouched( this.props.field );
+      this.context.formApi.setTouched( this.props.field, true, false );
     }
   }
 
@@ -97,7 +97,10 @@ class FormField extends Component {
       getError: ( ) => formApi.getError( field ),
       getWarning: ( ) => formApi.getWarning( field ),
       getSuccess: ( ) => formApi.getSuccess( field ),
+      validatingField: ( ) => formApi.validatingField( field ),
+      doneValidatingField: ( ) => formApi.doneValidatingField( field ),
       reset: ( ) => formApi.reset( field ),
+      registerAsyncValidation: formApi.registerAsyncValidation,
       submitted: formApi.submitted,
       submits: formApi.submits
     };

@@ -8,6 +8,8 @@ import FormWithArrays from './FormWithArrays';
 import BigComplexForm from './BigComplexForm';
 import Intro from './Intro';
 import CustomInputs from './CustomInputs';
+import AsyncValidation from './AsyncValidation';
+import NestedAsyncValidation from './NestedAsyncValidation';
 
 class Examples extends Component {
   render() {
@@ -24,6 +26,10 @@ class Examples extends Component {
         <NestedFormExample />
         <hr /><br />
         <CustomInputs />
+        <hr /><br />
+        <AsyncValidation />
+        <hr /><br />
+        <NestedAsyncValidation />
         <hr /><br />
         <BigComplexForm />
       </div>

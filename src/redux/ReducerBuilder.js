@@ -13,7 +13,13 @@ import {
   VALIDATING_FIELD,
   DONE_VALIDATING_FIELD,
   VALIDATION_FAILURE,
-  VALIDATION_SUCCESS
+  VALIDATION_SUCCESS,
+  SET_ASYNC_ERROR,
+  SET_ASYNC_WARNING,
+  SET_ASYNC_SUCCESS,
+  REMOVE_ASYNC_ERROR,
+  REMOVE_ASYNC_WARNING,
+  REMOVE_ASYNC_SUCCESS
 } from './actions';
 
 const INITIAL_STATE = {
@@ -22,6 +28,9 @@ const INITIAL_STATE = {
   errors: {},
   warnings: {},
   successes: {},
+  asyncErrors: {},
+  asyncWarnings: {},
+  asyncSuccesses: {},
   validating: {},
   validationFailed: {},
   validationFailures: 0,
@@ -173,11 +182,147 @@ const setSuccess = ( state, action ) => {
 
 };
 
+
+const setAsyncWarning = ( state, action ) => {
+
+  const {
+    field,
+    warning
+  } = action;
+
+  const newWarnings = JSON.parse(JSON.stringify(state.asyncWarnings));
+
+  if ( Array.isArray(field) ) {
+    newWarnings[field[0]] = warning;
+  }
+  else {
+    newWarnings[field] = warning;
+  }
+
+  return {
+    ...state,
+    asyncWarnings: newWarnings
+  };
+
+};
+
+const setAsyncError = ( state, action ) => {
+
+  const {
+    field,
+    error
+  } = action;
+
+  const newErrors = JSON.parse(JSON.stringify(state.asyncErrors));
+
+  if ( Array.isArray(field) ) {
+    newErrors[field[0]] = error;
+  }
+  else {
+    newErrors[field] = error;
+  }
+
+  return {
+    ...state,
+    asyncErrors: newErrors
+  };
+
+};
+
+const setAsyncSuccess = ( state, action ) => {
+
+  const {
+    field,
+    success
+  } = action;
+
+  const newSuccesses = JSON.parse(JSON.stringify(state.asyncSuccesses));
+
+  if ( Array.isArray(field) ) {
+    newSuccesses[field[0]] = success;
+  }
+  else {
+    newSuccesses[field] = success;
+  }
+
+  return {
+    ...state,
+    asyncSuccesses: newSuccesses
+  };
+
+};
+
+const removeAsyncWarning = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const newWarnings = JSON.parse(JSON.stringify(state.asyncWarnings));
+
+  if ( Array.isArray(field) ) {
+    delete newWarnings[field[0]];
+  }
+  else {
+    delete newWarnings[field];
+  }
+
+  return {
+    ...state,
+    asyncWarnings: newWarnings
+  };
+
+};
+
+const removeAsyncError = ( state, action ) => {
+
+  const {
+    field,
+  } = action;
+
+  const newErrors = JSON.parse(JSON.stringify(state.asyncErrors));
+
+  if ( Array.isArray(field) ) {
+    delete newErrors[field[0]];
+  }
+  else {
+    delete newErrors[field];
+  }
+
+  return {
+    ...state,
+    asyncErrors: newErrors
+  };
+
+};
+
+const removeAsyncSuccess = ( state, action ) => {
+
+  const {
+    field
+  } = action;
+
+  const newSuccesses = JSON.parse(JSON.stringify(state.asyncSuccesses));
+
+  if ( Array.isArray(field) ) {
+    delete newSuccesses[field[0]];
+  }
+  else {
+    delete newSuccesses[field];
+  }
+
+  return {
+    ...state,
+    asyncSuccesses: newSuccesses
+  };
+
+};
+
 const validate = ( state, action, validateError, validateWarning, validateSuccess ) => {
 
   let errors = validateError ? validateError( state.values ) : {};
   let warnings = validateWarning ? validateWarning( state.values ) : {};
-  let successes = validateSuccess ? validateSuccess( state.values ) : {};
+  let successes = validateSuccess ? validateSuccess( state.values, errors ) : {};
   errors = { ...state.errors, ...errors };
   warnings = { ...state.warnings, ...warnings };
   successes = { ...state.successes, ...successes };
@@ -225,6 +370,9 @@ const reset = ( state, action ) => {
   newState.errors[field] = null;
   newState.warnings[field] = null;
   newState.successes[field] = null;
+  newState.asyncErrors[field] = null;
+  newState.asyncWarnings[field] = null;
+  newState.asyncSuccesses[field] = null;
 
   return {
     ...state,
@@ -240,17 +388,22 @@ const validatingField = ( state, action ) => {
 
   const validating = JSON.parse(JSON.stringify(state.validating));
 
+  let asyncValidations = state.asyncValidations;
+
   if ( Array.isArray(field) ) {
-    validating[field[0]] = validating[field[0]] || [];
-    validating[field[0]][field[1]] = true;
+    // Only incriment validations if this field is going from falsey to true
+    asyncValidations = !validating[field[0]] ? asyncValidations + 1 : asyncValidations;
+    validating[field[0]] = true;
   }
   else {
+    // Only incriment validations if this field is going from falsey to true
+    asyncValidations = !validating[field] ? asyncValidations + 1 : asyncValidations;
     validating[field] = true;
   }
 
   return {
     ...state,
-    asyncValidations: state.asyncValidations + 1,
+    asyncValidations,
     validating
   };
 
@@ -264,17 +417,22 @@ const doneValidatingField = ( state, action ) => {
 
   const validating = JSON.parse(JSON.stringify(state.validating));
 
+  let asyncValidations = state.asyncValidations;
+
   if ( Array.isArray(field) ) {
-    validating[field[0]] = validating[field[0]] || [];
-    validating[field[0]][field[1]] = false;
+    // Only deccriment validations if this field is going from true to false
+    asyncValidations = validating[field[0]] ? asyncValidations - 1 : asyncValidations;
+    validating[field[0]] = false;
   }
   else {
+    // Only deccriment validations if this field is going from true to false
+    asyncValidations = validating[field] ? asyncValidations - 1 : asyncValidations;
     validating[field] = false;
   }
 
   return {
     ...state,
-    asyncValidations: state.asyncValidations - 1,
+    asyncValidations,
     validating
   };
 
@@ -288,17 +446,22 @@ const validationFailure = ( state, action ) => {
 
   const validationFailed = JSON.parse(JSON.stringify(state.validationFailed));
 
+  let validationFailures = state.validationFailures;
+
   if ( Array.isArray(field) ) {
-    validationFailed[field[0]] = validationFailed[field[0]] || [];
-    validationFailed[field[0]][field[1]] = true;
+    // Only incriment faulures if this field is going from false to true
+    validationFailures = validationFailed[field[0]] === false ? validationFailures + 1 : validationFailures;
+    validationFailed[field[0]] = true;
   }
   else {
+    // Only incriment faulures if this field is going from falsey to true
+    validationFailures = !validationFailed[field] ? validationFailures + 1 : validationFailures;
     validationFailed[field] = true;
   }
 
   return {
     ...state,
-    validationFailures: state.validationFailures + 1,
+    validationFailures,
     validationFailed
   };
 
@@ -310,19 +473,24 @@ const validationSuccess = ( state, action ) => {
     field
   } = action;
 
+  let validationFailures = state.validationFailures;
+
   const validationFailed = JSON.parse(JSON.stringify(state.validationFailed));
 
   if ( Array.isArray(field) ) {
-    validationFailed[field[0]] = validationFailed[field[0]] || [];
-    validationFailed[field[0]][field[1]] = false;
+    // Only devcriment faulures if this field is going from true to false
+    validationFailures = validationFailed[field[0]] === true ? validationFailures - 1 : validationFailures;
+    validationFailed[field[0]] = false;
   }
   else {
+    // Only devcriment faulures if this field is going from true to false
+    validationFailures = validationFailed[field] === true ? validationFailures - 1 : validationFailures;
     validationFailed[field] = false;
   }
 
   return {
     ...state,
-    validationFailures: state.validationFailures - 1,
+    validationFailures,
     validationFailed
   };
 
@@ -350,8 +518,20 @@ class ReducerBuilder {
           return setWarning( state, action );
         case SET_SUCCESS:
           return setSuccess( state, action );
+        case SET_ASYNC_ERROR:
+          return setAsyncError( state, action );
+        case SET_ASYNC_WARNING:
+          return setAsyncWarning( state, action );
+        case SET_ASYNC_SUCCESS:
+          return setAsyncSuccess( state, action );
         case SET_TOUCHED:
           return setTouched( state, action );
+        case REMOVE_ASYNC_ERROR:
+          return removeAsyncError( state, action );
+        case REMOVE_ASYNC_WARNING:
+          return removeAsyncWarning( state, action );
+        case REMOVE_ASYNC_SUCCESS:
+          return removeAsyncSuccess( state, action );
         case PRE_VALIDATE:
           return preValidate( state, action, properties.preValidate );
         case VALIDATE:

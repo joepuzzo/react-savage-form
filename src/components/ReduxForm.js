@@ -45,7 +45,7 @@ class Form extends Component {
       ReducerBuilder.build( { validateError, validateWarning, validateSuccess, preValidate } ),
       applyMiddleware(
         thunkMiddleware, // lets us dispatch() functions
-        // createLogger() // neat middleware that logs actions
+        //createLogger() // neat middleware that logs actions
       )
     );
 
@@ -64,6 +64,12 @@ class Form extends Component {
     this.getError = this.getError.bind(this);
     this.getWarning = this.getWarning.bind(this);
     this.getSuccess = this.getSuccess.bind(this);
+    this.doneValidatingField = this.doneValidatingField.bind(this);
+    this.validatingField = this.validatingField.bind(this);
+    this.registerAsyncValidation = this.registerAsyncValidation.bind(this);
+    this.callAsyncronousValidators = this.callAsyncronousValidators.bind(this);
+
+    this.asyncValidators = [];
 
     this.store.subscribe(() =>
       this.setState( this.store.getState() )
@@ -82,14 +88,13 @@ class Form extends Component {
     this.store.dispatch(actions.preValidate());
     // Validate
     this.store.dispatch(actions.validate());
+    // Register async validators if you are a nested form and have validators
+    if ( this.props.asyncValidators && this.props.registerAsyncValidation ) {
+      this.props.registerAsyncValidation( this.callAsyncronousValidators );
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // If we are told we are submitted and we went from true to false ( not undefined to somthing else ) then submit
-    if ( nextProps.submitted !== this.props.submitted && nextProps.submitted === true && this.props.submitted === false ) {
-      // Set submitted to true
-      this.store.dispatch(actions.submitted());
-    }
+  async componentWillReceiveProps(nextProps) {
     // If submits was incrimented
     if ( nextProps.submits > this.props.submits ) {
       // PreValidate
@@ -103,25 +108,11 @@ class Form extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if ( this.props.formDidUpdate ) {
-      this.props.formDidUpdate( this.state );
+      this.props.formDidUpdate( this.currentState );
     }
     if ( this.props.update ) {
       if ( JSON.stringify( prevState ) !== JSON.stringify( this.state )) {
         this.props.update( this.state );
-      }
-    }
-    if ( prevState.submits < this.state.submits ) {
-      // Only submit if we have no errors
-      const errors = this.state.errors;
-
-      const invalid = isFormValid( errors );
-      if ( !invalid ) {
-        // Update submitted
-        this.store.dispatch(actions.submitted());
-      }
-      if ( this.props.onSubmit && !invalid ) {
-        // Call the on submit
-        this.props.onSubmit( this.state.values );
       }
     }
   }
@@ -137,10 +128,14 @@ class Form extends Component {
   get api() {
     return {
       values: this.state.values,
-      errors: this.state.errors,
-      warnings: this.state.warnings,
+      errors: this.errors,
+      warnings: this.warnings,
+      successes: this.successes,
       touched: this.state.touched,
-      successes: this.state.successes,
+      asyncValidations: this.state.asyncValidations,
+      validating: this.state.validating,
+      validationFailures: this.state.validationFailures,
+      validationFailed: this.state.validationFailed,
       submitForm: this.submitForm,
       setValue: this.setValue,
       getValue: this.getValue,
@@ -155,19 +150,48 @@ class Form extends Component {
       format: this.format,
       submitted: this.state.submitted,
       submits: this.state.submits,
-      reset: this.reset
+      reset: this.reset,
+      validatingField: this.validatingField,
+      doneValidatingField: this.doneValidatingField,
+      registerAsyncValidation: this.registerAsyncValidation
     };
+  }
+
+  get errors() {
+    return Object.assign(this.state.errors, this.state.asyncErrors);
+  }
+
+  get warnings() {
+    return Object.assign(this.state.warnings, this.state.asyncWarnings);
+  }
+
+  get successes() {
+    return Object.assign(this.state.successes, this.state.asyncSuccesses);
+  }
+
+  get currentState() {
+    return Object.assign( JSON.parse( JSON.stringify( this.state ) ), {
+      errors: this.errors,
+      warnings: this.warnings,
+      successes: this.successes
+    });
   }
 
   setValue( field, value ) {
     this.store.dispatch(actions.setValue(field, value));
+    this.store.dispatch(actions.removeAsyncError(field));
+    this.store.dispatch(actions.removeAsyncWarning(field));
+    this.store.dispatch(actions.removeAsyncSuccess(field));
     this.store.dispatch(actions.preValidate());
     this.store.dispatch(actions.validate());
   }
 
-  setTouched( field, touch = true ) {
+  setTouched( field, touch = true, validate = true ) {
     this.store.dispatch(actions.setTouched(field, touch));
-    this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
+    // We have a flag to perform async validate when touched
+    if ( validate ) {
+      this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
+    }
   }
 
   setError( field, error ) {
@@ -197,24 +221,31 @@ class Form extends Component {
   }
 
   getError( field ) {
+    const errors = this.errors;
     if ( Array.isArray(field) ) {
-      return this.state.errors[field[0]] ? this.state.errors[field[0]][field[1]] : undefined;
+      return errors[field[0]] ? errors[field[0]][field[1]] : undefined;
     }
-    return this.state.errors[field];
+    return errors[field];
   }
 
   getWarning( field ) {
+    const warnings = this.warnings;
     if ( Array.isArray(field) ) {
-      return this.state.warnings[field[0]] ? this.state.warnings[field[0]][field[1]] : undefined;
+      return warnings[field[0]] ? warnings[field[0]][field[1]] : undefined;
     }
-    return this.state.warnings[field];
+    return warnings[field];
   }
 
   getSuccess( field ) {
+    const successes = this.successes;
     if ( Array.isArray(field) ) {
-      return this.state.successes[field[0]] ? this.state.successes[field[0]][field[1]] : undefined;
+      return successes[field[0]] ? successes[field[0]][field[1]] : undefined;
     }
-    return this.state.successes[field];
+    return successes[field];
+  }
+
+  registerAsyncValidation( func ) {
+    this.asyncValidators.push( func );
   }
 
   format( field, format ) {
@@ -227,29 +258,63 @@ class Form extends Component {
     this.store.dispatch(actions.reset(field));
   }
 
-  submitForm( e ) {
+  // This is an internal method used by nested forms to tell the parent that its validating
+  validatingField( field ) {
+    this.store.dispatch(actions.validatingField(field));
+  }
 
+  // This is an internal method used by nested forms to tell the parent that its done validating
+  doneValidatingField( field ) {
+    this.store.dispatch(actions.doneValidatingField(field));
+  }
+
+  async submitForm( e ) {
+    e.persist()
     // PreValidate
     this.store.dispatch(actions.preValidate());
     // Validate
     this.store.dispatch(actions.validate());
     // update submits
     this.store.dispatch(actions.submits());
-
-
+    // Call asyncronous validators
+    await this.callAsyncronousValidators();
     // We prevent default, by default, unless override is passed
     if ( e && e.preventDefault && !this.props.dontPreventDefault ) {
       e.preventDefault(e);
     }
-
     // We need to prevent default if override is passed and form is invalid
     if ( this.props.dontPreventDefault ) {
-      const invalid = isFormValid( this.state.errors );
+      const invalid = isFormValid( this.errors );
       if ( invalid && e && e.preventDefault ) {
         e.preventDefault(e);
       }
     }
+    this.finishSubmission();
+  }
 
+  finishSubmission() {
+    // Only submit if we have no errors
+    const errors = this.errors;
+    const invalid = isFormValid( errors );
+    // Only update submitted if we are not invalid and there are no active asyncronous validations
+    if ( !invalid && this.state.asyncValidations === 0 ) {
+      // Update submitted
+      this.store.dispatch(actions.submitted());
+      if ( this.props.onSubmit ) {
+        this.props.onSubmit( this.state.values );
+      }
+    }
+  }
+
+  async callAsyncronousValidators() {
+    // Build up list of async functions that need to be called
+    const validators = this.props.asyncValidators ? Object.keys(this.props.asyncValidators).map( ( field ) => {
+      return this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
+    }) : [];
+    // Add all other subscribed validators to the validators list
+    validators.concat(this.validators);
+    // Call all async validators
+    await Promise.all( validators );
   }
 
   render() {

@@ -26,12 +26,15 @@ describe('ReducerBuilder', () => {
         errors: {},
         warnings: {},
         successes: {},
+        asyncErrors: {},
+        asyncWarnings: {},
+        asyncSuccesses: {},
         submitted: false,
         submits: 0,
         validating: {},
         validationFailed: {},
         validationFailures: 0,
-        asyncValidations: 0
+        asyncValidations: 0,
       };
       return Object.assign({}, defaultState, state)
     };
@@ -130,6 +133,9 @@ describe('ReducerBuilder', () => {
         errors: { foo: null },
         warnings: { foo: null },
         successes: { foo: null },
+        asyncErrors: { foo: null },
+        asyncWarnings: { foo: null },
+        asyncSuccesses: { foo: null },
         values: { foo: null },
         touched: { foo: null },
       });

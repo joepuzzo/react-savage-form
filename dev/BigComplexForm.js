@@ -282,7 +282,7 @@ class BigComplexForm extends Component {
         <br />
         <Form
           onSubmit={((values) => { console.log('SUBMIT:', values); })}
-          formDidUpdate={ state => console.log( "STATE:", state.values )}
+          formDidUpdate={ state => console.log( "STATE:", state )}
           validateError={errorValidator}>
           <FormContent aprop={this.state.aprop} setProp={this.setProp} />
         </Form>

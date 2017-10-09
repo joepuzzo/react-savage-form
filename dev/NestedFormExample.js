@@ -35,7 +35,7 @@ const FormContent = ({ formApi, submittedValues }) => {
 
   return (
     <div>
-      <form onSubmit={formApi.submitForm} id="form3">
+      <form onSubmit={formApi.submitForm} id="form4">
         <label htmlFor="firstName3">First name</label>
         <Text field="firstName" id="firstName3" />
         <NestedForm field="questions">
@@ -114,7 +114,7 @@ const NestedFormCode = () => {
 
     return (
       <div>
-        <form onSubmit={formApi.submitForm} id="form3">
+        <form onSubmit={formApi.submitForm} id="form4">
           <label htmlFor="firstName3">First name</label>
           <Text field="firstName" id="firstName3" />
           <NestedForm field="questions">

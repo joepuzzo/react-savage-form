@@ -18,7 +18,7 @@ const FormContent = ({ formApi, submittedValues }) => {
 
   return (
     <div>
-      <form onSubmit={formApi.submitForm} id="form2">
+      <form onSubmit={formApi.submitForm} id="form3">
         <label htmlFor="firstName2">First name</label>
         <Text field="firstName" id="firstName2" />
         <label htmlFor="friend1">Friend1</label>
@@ -49,7 +49,7 @@ const FormWithArraysCode = () => {
 
     return (
       <div>
-        <form onSubmit={formApi.submitForm} id="form2">
+        <form onSubmit={formApi.submitForm} id="form3">
           <label htmlFor="firstName2">First name</label>
           <Text field="firstName" id="firstName2" />
           <label htmlFor="friend1">Friend1</label>

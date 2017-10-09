@@ -49,7 +49,7 @@ const FormContent = ({ formApi, submittedValues }) => {
 
   return (
     <div>
-      <form onSubmit={formApi.submitForm} id="form1">
+      <form onSubmit={formApi.submitForm} id="form2">
         <label htmlFor="firstName">First name</label>
         <Text field="firstName" id="firstName" />
         <label htmlFor="lastName">Last name</label>
@@ -111,7 +111,7 @@ const BasicFormCode = () => {
 
     return (
       <div>
-        <form onSubmit={formApi.submitForm} id="form1">
+        <form onSubmit={formApi.submitForm} id="form2">
           <label htmlFor="firstName">First name</label>
           <Text field="firstName" id="firstName" />
           <label htmlFor="lastName">Last name</label>

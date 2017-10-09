@@ -23,6 +23,36 @@ export function setSuccess( field, success ) {
   return { type: SET_SUCCESS, field, success };
 }
 
+export const SET_ASYNC_ERROR = 'SET_ASYNC_ERROR';
+export function setAsyncError( field, error ) {
+  return { type: SET_ASYNC_ERROR, field, error };
+}
+
+export const SET_ASYNC_WARNING = 'SET_ASYNC_WARNING';
+export function setAsyncWarning( field, warning ) {
+  return { type: SET_ASYNC_WARNING, field, warning };
+}
+
+export const SET_ASYNC_SUCCESS = 'SET_ASYNC_SUCCESS';
+export function setAsyncSuccess( field, success ) {
+  return { type: SET_ASYNC_SUCCESS, field, success };
+}
+
+export const REMOVE_ASYNC_ERROR = 'REMOVE_ASYNC_ERROR';
+export function removeAsyncError( field ) {
+  return { type: REMOVE_ASYNC_ERROR, field };
+}
+
+export const REMOVE_ASYNC_WARNING = 'REMOVE_ASYNC_WARNING';
+export function removeAsyncWarning( field ) {
+  return { type: REMOVE_ASYNC_WARNING, field };
+}
+
+export const REMOVE_ASYNC_SUCCESS = 'REMOVE_ASYNC_SUCCESS';
+export function removeAsyncSuccess( field ) {
+  return { type: REMOVE_ASYNC_SUCCESS, field };
+}
+
 export const SET_TOUCHED = 'SET_TOUCHED';
 export function setTouched( field, touched ) {
   return { type: SET_TOUCHED, field, touched };
@@ -80,17 +110,26 @@ export function validationSuccess( field ) {
 
 export function asyncValidate( field, validators = () => { return {}; } ) {
   return async (dispatch, getState) => {
+    // Field could be array, if so we pull of the first param
+    const fld = Array.isArray(field) ? field[0] : field
     // Only validate if there exists an async validator for this field
-    if ( validators[field] ) {
+    if ( validators[fld] ) {
       // We are validating the specified field
       dispatch( validatingField( field ) );
       try {
         // Call the asyncrounous validation function
-        const result = await validators[field](getState().values[field]);
-        // Dispatch the setters for error, success and warning
-        dispatch(setError(field, result.error));
-        dispatch(setWarning(field, result.warning));
-        dispatch(setSuccess(field, result.success));
+        const result = await validators[fld](getState().values[fld]);
+        // TODO null check on result??? Should we make the user return object
+        // Dispatch the setters for error, success and warning if they exsit on object
+        if ( result.hasOwnProperty('error') ) {
+          dispatch(setAsyncError(field, result.error));
+        }
+        if ( result.hasOwnProperty('warning') ) {
+          dispatch(setAsyncWarning(field, result.warning));
+        }
+        if ( result.hasOwnProperty('success') ) {
+          dispatch(setAsyncSuccess(field, result.success));
+        }
         // We successfully validated so dispatch
         dispatch(validationSuccess(field));
       } catch ( e ) {

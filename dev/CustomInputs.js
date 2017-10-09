@@ -87,11 +87,11 @@ const FormContent = ({ formApi }) => {
 
   return (
     <div>
-      <form onSubmit={formApi.submitForm} id="form1">
-        <label htmlFor="firstName">First name</label>
-        <Text field="firstName" id="firstName" />
-        <label htmlFor="hello">Custom hello world</label>
-        <CustomText field="hello" id="hello" />
+      <form onSubmit={formApi.submitForm} id="form5">
+        <label htmlFor="firstName4">First name</label>
+        <Text field="firstName" id="firstName4" />
+        <label htmlFor="hello2">Custom hello world</label>
+        <CustomText field="hello" id="hello2" />
         <button type="submit" className="mb-4 btn btn-primary">Submit</button>
       </form>
       <br />
@@ -182,11 +182,11 @@ const CustomFormCode = () => {
 
     return (
       <div>
-        <form onSubmit={formApi.submitForm} id="form1">
-          <label htmlFor="firstName">First name</label>
-          <Text field="firstName" id="firstName" />
-          <label htmlFor="hello">Custom hello world</label>
-          <CustomText field="hello" id="hello" />
+        <form onSubmit={formApi.submitForm} id="form5">
+          <label htmlFor="firstName4">First name</label>
+          <Text field="firstName" id="firstName4" />
+          <label htmlFor="hello2">Custom hello world</label>
+          <CustomText field="hello" id="hello2" />
           <button type="submit" className="mb-4 btn btn-primary">Submit</button>
         </form>
       </div>
