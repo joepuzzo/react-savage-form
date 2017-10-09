@@ -89,6 +89,7 @@ class Form extends Component {
     // Validate
     this.store.dispatch(actions.validate());
     // Register async validators if you are a nested form and have validators
+    // TODO might need to do this regardless of asyncValidators
     if ( this.props.asyncValidators && this.props.registerAsyncValidation ) {
       this.props.registerAsyncValidation( this.callAsyncronousValidators );
     }
@@ -268,16 +269,14 @@ class Form extends Component {
     this.store.dispatch(actions.doneValidatingField(field));
   }
 
-  async submitForm( e ) {
-    e.persist()
+  submitForm( e ) {
+    //e.persist()
     // PreValidate
     this.store.dispatch(actions.preValidate());
     // Validate
     this.store.dispatch(actions.validate());
     // update submits
     this.store.dispatch(actions.submits());
-    // Call asyncronous validators
-    await this.callAsyncronousValidators();
     // We prevent default, by default, unless override is passed
     if ( e && e.preventDefault && !this.props.dontPreventDefault ) {
       e.preventDefault(e);
@@ -292,7 +291,9 @@ class Form extends Component {
     this.finishSubmission();
   }
 
-  finishSubmission() {
+  async finishSubmission() {
+    // Call asyncronous validators
+    await this.callAsyncronousValidators();
     // Only submit if we have no errors
     const errors = this.errors;
     const invalid = isFormValid( errors );
@@ -308,11 +309,15 @@ class Form extends Component {
 
   async callAsyncronousValidators() {
     // Build up list of async functions that need to be called
-    const validators = this.props.asyncValidators ? Object.keys(this.props.asyncValidators).map( ( field ) => {
+    let validators = this.props.asyncValidators ? Object.keys(this.props.asyncValidators).map( ( field ) => {
       return this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
     }) : [];
+    const childValidators = this.asyncValidators ? this.asyncValidators.map( ( validator ) => {
+      // This looks strange but you call an async function to generate a promise
+      return validator();
+    }) : [];
     // Add all other subscribed validators to the validators list
-    validators.concat(this.validators);
+    validators = validators.concat(childValidators);
     // Call all async validators
     await Promise.all( validators );
   }
