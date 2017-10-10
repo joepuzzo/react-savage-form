@@ -26,6 +26,8 @@
     "form",
     "react-form",
     "async",
+    "async-form",
+    "asynchronous-form",
     "asynchronous"
   ],
   "repository": {
