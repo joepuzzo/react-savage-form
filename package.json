@@ -24,7 +24,9 @@
     "react-redux",
     "redux-form",
     "form",
-    "react-form"
+    "react-form",
+    "async",
+    "asynchronous"
   ],
   "repository": {
     "type": "git",

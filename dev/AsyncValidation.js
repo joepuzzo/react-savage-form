@@ -39,7 +39,7 @@ const FormContent = ({ formApi }) => {
 
 };
 
-const AsyncronousValidationCode = () => {
+const AsynchronousValidationCode = () => {
 
   const code = `
   import { Form, Text } from 'react-savage-form';
@@ -89,7 +89,7 @@ const AsyncronousValidationCode = () => {
     }
   };
 
-  class AsyncronousFormValidation extends Component {
+  class AsynchronousFormValidation extends Component {
     render() {
       return (
         <div>
@@ -147,7 +147,7 @@ const asyncValidators = {
   }
 };
 
-class AsyncronousValidation extends Component {
+class AsynchronousValidation extends Component {
 
   constructor( props ) {
     super( props );
@@ -158,9 +158,9 @@ class AsyncronousValidation extends Component {
 
     return (
       <div>
-        <h2 className="mb-4" id="async-validation">Asyncronous Validation</h2>
+        <h2 className="mb-4" id="async-validation">Asynchronous Validation</h2>
         <p>
-          Forms also support asyncronous validation!!! wooo!
+          Forms also support asynchronous validation!!! wooo!
         </p>
         <p>
           Play around with the username field and see how the form values react.
@@ -169,7 +169,7 @@ class AsyncronousValidation extends Component {
           <strong> Hint: </strong> the following usernames will
           fail validation after a 2 second lookup: {'"joe", "tanner", "billy", and "bob"'}.
           You can also type {'"reject"'} in the field to see how the form reacts when the
-          asyncronous validation failed ( as if 500 status code came back from your server ).
+          asynchronous validation failed ( as if 500 status code came back from your server ).
         </p>
         <p>
           Try typing {'"joe"'}, tabbing out of field, waiting two seconds, and seeing the result.
@@ -190,10 +190,10 @@ class AsyncronousValidation extends Component {
           <FormContent />
         </Form>
         <br />
-        <AsyncronousValidationCode />
+        <AsynchronousValidationCode />
       </div>
     );
   }
 }
 
-export default AsyncronousValidation;
+export default AsynchronousValidation;

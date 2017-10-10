@@ -199,8 +199,8 @@ const FormApi = ({ formApi }) => {
             <th scope="row">asyncValidations</th>
             <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.asyncValidations)}</PrismCode></pre></td>
             <td>
-              The number of asyncronous validations currently occuring.
-              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+              The number of asynchronous validations currently occuring.
+              See the <a href="#async-validation">asynchronous validation section</a> of these docs for additional details.
             </td>
           </tr>
           <tr>
@@ -209,17 +209,17 @@ const FormApi = ({ formApi }) => {
             <td>
               Key value pair where key is the form <code>field</code>, and value
               is a bool. Value is true when that field is activley validating, and falsey otherwise.
-              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+              See the <a href="#async-validation">asynchronous validation section</a> of these docs for additional details.
             </td>
           </tr>
           <tr>
             <th scope="row">validationFailures</th>
             <td><pre><PrismCode className="language-json">{JSON.stringify(formApi.validationFailures)}</PrismCode></pre></td>
             <td>
-              The number of asyncronous validation failures that have occured. This value will get
-              incimented each time an asyncronous validation fails, and decrimented if it succeeds.
+              The number of asynchronous validation failures that have occured. This value will get
+              incimented each time an asynchronous validation fails, and decrimented if it succeeds.
               Note, it will NOT get incrimented twice for the same field.
-              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+              See the <a href="#async-validation">asynchronous validation section</a> of these docs for additional details.
             </td>
           </tr>
           <tr>
@@ -228,7 +228,7 @@ const FormApi = ({ formApi }) => {
             <td>
               Key value pair where key is the form <code>field</code> and value
               is a bool. Value is true when that fields most recent async validation had a failure, and falsey otherwise.
-              See the <a href="#async-validation">asyncronous validation section</a> of these docs for additional details.
+              See the <a href="#async-validation">asynchronous validation section</a> of these docs for additional details.
             </td>
           </tr>
         </tbody>
@@ -318,7 +318,7 @@ const FormProps = () => {
             <td><pre>obj</pre></td>
             <td>no</td>
             <td>
-              An object where the key is the field name, and the value is an asyncronous function.
+              An object where the key is the field name, and the value is an asynchronous function.
               Each function accepts the value as a parameter, and must return a validation object,
               where the keys are one of ['error', 'warning', 'success'], and the value is a message or null.
               The function will get called when you tab out of the field for the associated function.

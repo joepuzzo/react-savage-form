@@ -15,7 +15,7 @@ import Code from './Code';
 
 /* ------------------ Form Stuff --------------------*/
 
-const NestedAsyncronousValidationCode = () => {
+const NestedAsynchronousValidationCode = () => {
 
   const code = `
   import { Form, Text, NestedForm } from 'react-savage-form';
@@ -113,7 +113,7 @@ const NestedAsyncronousValidationCode = () => {
     }
   };
 
-  class NestedAsyncronousFormValidation extends Component {
+  class NestedAsynchronousFormValidation extends Component {
     render() {
       return (
         <div>
@@ -185,9 +185,7 @@ const asyncValidators3 = {
   }
 };
 
-//let nestedFormApi = {};
-
-const NestedNestedFormContent = ({ formApi }) => {
+const NestedNestedFormContent = () => {
   return (
     <div>
       <label htmlFor="username4">Nested Username</label>
@@ -196,7 +194,7 @@ const NestedNestedFormContent = ({ formApi }) => {
   );
 };
 
-const NestedFormContent = ({ formApi }) => {
+const NestedFormContent = () => {
   return (
     <div>
       <label htmlFor="username3">Nested Username</label>
@@ -246,7 +244,7 @@ const FormContent = ({ formApi }) => {
 
 };
 
-class NestedAsyncronousValidation extends Component {
+class NestedAsynchronousValidation extends Component {
 
   constructor( props ) {
     super( props );
@@ -257,7 +255,7 @@ class NestedAsyncronousValidation extends Component {
 
     return (
       <div>
-        <h2 className="mb-4" id="async-validation">Nested Asyncronous Validation</h2>
+        <h2 className="mb-4" id="async-validation">Nested Asynchronous Validation</h2>
         <p>
           We can even do nested async validation!
         </p>
@@ -268,7 +266,7 @@ class NestedAsyncronousValidation extends Component {
           <strong> Hint: </strong> the following usernames will
           fail validation: {'"joe", "tanner", "billy", and "bob"'}.
           You can also type {'"reject"'} in the field to see how the form reacts when the
-          asyncronous validation failed ( as if 500 status code came back from your server ).
+          asynchronous validation failed ( as if 500 status code came back from your server ).
           The first field will take 2 seconds to validate, the second 4, and the third 6 seconds.
         </p>
         <Form
@@ -278,10 +276,10 @@ class NestedAsyncronousValidation extends Component {
           <FormContent />
         </Form>
         <br />
-        <NestedAsyncronousValidationCode />
+        <NestedAsynchronousValidationCode />
       </div>
     );
   }
 }
 
-export default NestedAsyncronousValidation;
+export default NestedAsynchronousValidation;

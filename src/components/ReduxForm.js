@@ -67,7 +67,7 @@ class Form extends Component {
     this.doneValidatingField = this.doneValidatingField.bind(this);
     this.validatingField = this.validatingField.bind(this);
     this.registerAsyncValidation = this.registerAsyncValidation.bind(this);
-    this.callAsyncronousValidators = this.callAsyncronousValidators.bind(this);
+    this.callAsynchronousValidators = this.callAsynchronousValidators.bind(this);
 
     this.asyncValidators = [];
 
@@ -88,10 +88,9 @@ class Form extends Component {
     this.store.dispatch(actions.preValidate());
     // Validate
     this.store.dispatch(actions.validate());
-    // Register async validators if you are a nested form and have validators
-    // TODO might need to do this regardless of asyncValidators
-    if ( this.props.asyncValidators && this.props.registerAsyncValidation ) {
-      this.props.registerAsyncValidation( this.callAsyncronousValidators );
+    // Register async validators if you are a nested form ( only nested forms have registerAsync prop )
+    if ( this.props.registerAsyncValidation ) {
+      this.props.registerAsyncValidation( this.callAsynchronousValidators );
     }
   }
 
@@ -292,12 +291,12 @@ class Form extends Component {
   }
 
   async finishSubmission() {
-    // Call asyncronous validators
-    await this.callAsyncronousValidators();
+    // Call asynchronous validators
+    await this.callAsynchronousValidators();
     // Only submit if we have no errors
     const errors = this.errors;
     const invalid = isFormValid( errors );
-    // Only update submitted if we are not invalid and there are no active asyncronous validations
+    // Only update submitted if we are not invalid and there are no active asynchronous validations
     if ( !invalid && this.state.asyncValidations === 0 ) {
       // Update submitted
       this.store.dispatch(actions.submitted());
@@ -307,7 +306,7 @@ class Form extends Component {
     }
   }
 
-  async callAsyncronousValidators() {
+  async callAsynchronousValidators() {
     // Build up list of async functions that need to be called
     let validators = this.props.asyncValidators ? Object.keys(this.props.asyncValidators).map( ( field ) => {
       return this.store.dispatch(actions.asyncValidate(field, this.props.asyncValidators ));
